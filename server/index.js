@@ -27,6 +27,11 @@ const connectDB = async () => {
   }
 };
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ message: 'ICHAD API is running' });
+});
+
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
   try {
