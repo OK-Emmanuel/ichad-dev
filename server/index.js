@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const app = require('./app'); // Make sure this exists and exports your Express app
+const app = require('./app');
 
 // MongoDB Connection
 let cachedConnection = null;
@@ -27,50 +27,33 @@ const connectDB = async () => {
   }
 };
 
-// Root route
-app.get('/', (req, res) => {
-  res.json({ message: 'ICHAD API is running' });
-});
-
-// Health check endpoint
-app.get('/api/health', async (req, res) => {
+// Connect to MongoDB before handling requests
+app.use(async (req, res, next) => {
   try {
     await connectDB();
-    res.json({
-      message: "ICHAD API is running",
-      status: "healthy",
-      mongoConnection: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
-      timestamp: new Date().toISOString()
-    });
+    next();
   } catch (error) {
-    res.status(500).json({
-      message: "Health check failed",
-      error: error.message
-    });
+    next(error);
   }
 });
 
-// For Vercel serverless functions
-module.exports = app;
-
-// Only start server if running locally
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
-
-// Handle errors after initial connection
+// Handle MongoDB connection events
 mongoose.connection.on('error', err => {
   console.error('MongoDB error after initial connection:', err);
 });
 
 mongoose.connection.on('disconnected', () => {
   console.log('MongoDB disconnected');
+  cachedConnection = null;
 });
 
-process.on('SIGINT', async () => {
-  await mongoose.connection.close();
-  process.exit(0);
-}); 
+// Export for Vercel
+module.exports = app;
+
+// Start server if running locally
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+} 

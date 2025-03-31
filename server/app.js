@@ -7,7 +7,13 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://ichad-dev.vercel.app', // Add your frontend URL
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -20,6 +26,9 @@ const postsRoutes = require('./routes/posts');
 const programsRoutes = require('./routes/programs');
 const categoriesRoutes = require('./routes/categories');
 const galleryRoutes = require('./routes/gallery');
+const eventsRoutes = require('./routes/events');
+const settingsRoutes = require('./routes/settings');
+const pagesRoutes = require('./routes/pages');
 
 // Use routes
 app.use('/api/auth', authRoutes);
@@ -27,27 +36,26 @@ app.use('/api/posts', postsRoutes);
 app.use('/api/programs', programsRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/gallery', galleryRoutes);
+app.use('/api/events', eventsRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/pages', pagesRoutes);
 
-// After importing routes
-console.log('Available routes:', app._router.stack.map(r => r.route?.path).filter(Boolean));
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'ICHAD API is running',
+    status: 'healthy',
+    mongoConnection: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Something broke!' });
+  res.status(500).json({
+    error: 'Something broke!',
+    message: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+  });
 });
 
-// Before exporting
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log('API endpoints:');
-  console.log('- /api/auth');
-  console.log('- /api/posts');
-  console.log('- /api/programs');
-  console.log('- /api/categories');
-  console.log('- /api/gallery');
-});
-
-// Export app
 module.exports = app;
