@@ -3,10 +3,11 @@ import { auth } from './auth';
 import { toast } from 'react-hot-toast';
 
 const DEFAULT_API_URL = 'http://localhost:5000/api';
+const PROD_API_URL = 'https://ichad-dev-8agf.vercel.app/api';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || DEFAULT_API_URL,
+  baseURL: import.meta.env.PROD ? PROD_API_URL : DEFAULT_API_URL,
   headers: {
     'Content-Type': 'application/json'
   }
