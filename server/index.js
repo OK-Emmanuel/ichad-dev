@@ -11,29 +11,44 @@ const connectDB = async () => {
 
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
       serverApi: {
         version: '1',
         strict: true,
         deprecationErrors: true,
       },
+      connectTimeoutMS: 10000, // 10 seconds
+      socketTimeoutMS: 45000,  // 45 seconds
     });
     
     cachedConnection = conn;
-    console.log('MongoDB Connected');
+    console.log('MongoDB Connected to:', conn.connection.host);
     return conn;
   } catch (error) {
-    console.error('MongoDB connection error:', error);
+    console.error('MongoDB connection error details:', {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+      stack: error.stack
+    });
     throw error;
   }
 };
 
-// Connect to MongoDB before handling requests
+// Modify the middleware to handle connection more gracefully
 app.use(async (req, res, next) => {
   try {
-    await connectDB();
+    if (!mongoose.connection.readyState) {
+      await connectDB();
+    }
     next();
   } catch (error) {
-    next(error);
+    console.error('Middleware connection error:', error);
+    return res.status(500).json({ 
+      error: 'Database connection failed',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 

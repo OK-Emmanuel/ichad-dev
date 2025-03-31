@@ -49,6 +49,33 @@ app.get('/', (req, res) => {
   });
 });
 
+// Add this near your root route
+app.get('/api/health', async (req, res) => {
+  try {
+    const dbState = mongoose.connection.readyState;
+    const states = {
+      0: 'disconnected',
+      1: 'connected',
+      2: 'connecting',
+      3: 'disconnecting'
+    };
+    
+    res.json({
+      message: 'ICHAD API is running',
+      status: 'healthy',
+      mongoConnection: states[dbState],
+      environment: process.env.NODE_ENV,
+      timestamp: new Date().toISOString(),
+      mongoHost: mongoose.connection.host || 'not connected'
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'unhealthy',
+      error: error.message
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
