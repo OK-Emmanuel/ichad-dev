@@ -6,14 +6,9 @@ require('dotenv').config();
 
 const app = express();
 
-// Updated CORS configuration
+// Temporary more permissive CORS for debugging
 app.use(cors({
-  origin: [
-    'http://localhost:5173',                // Local development
-    'https://ichad-dev.vercel.app',         // Production frontend
-    'https://www.ichad-dev.vercel.app',     // With www
-    process.env.FRONTEND_URL               // Optional: from env variable
-  ].filter(Boolean), // Remove any undefined values
+  origin: '*',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
