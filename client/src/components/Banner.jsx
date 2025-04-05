@@ -7,9 +7,8 @@ import ichadbanner1 from '../assets/ichadbanner1.jpg';
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  // Placeholder slides - replace image URLs when provided
+  // Updated slides with new content
   const slides = [
-    
     {
       image: ichadbanner1,
       title: "THE ICHAD PROJECT",
@@ -18,17 +17,16 @@ const Banner = () => {
     },
     {
       image: ichadbanner,
-      title: "THE ICHAD PROJECT",
-      subtitle: "...proving life can be better without drugs",
-      description: "We are committed to helping adolescents and young adults build resilient mindsets, valuable skills, and strong support networks."
+      title: "OUR COMMITMENT",
+      subtitle: "What we stand for",
+      description: "Discourage the initiation/use and abuse of substances and introduce healthy alternatives."
     },
     {
-      image: banner1, // Use the imported image
-      title: "THE ICHAD PROJECT",
-      subtitle: "...proving life can be better without drugs",
-      description: "We are committed to helping adolescents and young adults build resilient mindsets, valuable skills, and strong support networks."
-    },
-    // Add more slides when images are available
+      image: banner1,
+      title: "EMPOWER YOUNG ADULTS",
+      subtitle: "Building a drug-free future",
+      description: "Equip young adults with relevant employable skills and facilitate life skills enhancement programs."
+    }
   ];
 
   useEffect(() => {

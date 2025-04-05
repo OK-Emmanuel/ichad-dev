@@ -3,11 +3,10 @@ import { auth } from './auth';
 import { toast } from 'react-hot-toast';
 
 const DEFAULT_API_URL = 'http://localhost:5000/api';
-const PROD_API_URL = 'https://ichad-dev-8agf.vercel.app/api';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: import.meta.env.PROD ? PROD_API_URL : DEFAULT_API_URL,
+  baseURL: import.meta.env.VITE_API_URL || DEFAULT_API_URL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -28,15 +27,39 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Check if we should prevent retry for this specific request
+    if (originalRequest._preventRetry) {
+      return Promise.reject(error);
+    }
+
+    // Only attempt refresh if:
+    // 1. It's a 401 error
+    // 2. We haven't already tried to refresh for this request
+    // 3. The request isn't to the refresh endpoint itself (to prevent loops)
+    if (
+      error.response?.status === 401 && 
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/refresh')
+    ) {
       originalRequest._retry = true;
 
       try {
+        // Try to refresh the token
         await auth.refreshToken();
+        
+        // Get the new token and update the request
         const token = auth.getToken();
-        originalRequest.headers.Authorization = `Bearer ${token}`;
-        return api(originalRequest);
+        if (token) {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return api(originalRequest);
+        } else {
+          // If no token was returned, we need to log out
+          auth.logout();
+          return Promise.reject(new Error('Authentication failed'));
+        }
       } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+        auth.logout();
         return Promise.reject(refreshError);
       }
     }
@@ -135,13 +158,30 @@ export const gallery = {
 };
 
 export const programs = {
-  getAll: () => api.get('/programs'),
-  getOne: (slug) => api.get(`/programs/${slug}`),
-  create: (data) => api.post('/programs', data, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  }),
+  getAll: () => {
+    return api.get('/programs', {
+      _preventToast: true,
+      headers: {
+        'Cache-Control': 'max-age=300'
+      }
+    });
+  },
+  getOne: (slug) => {
+    return api.get(`/programs/${slug}`, {
+      headers: {
+        'Cache-Control': 'max-age=300'
+      }
+    });
+  },
+  create: (data) => {
+    return api.post('/programs', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+      _preventRetry: true
+    });
+  },
   update: (id, data) => api.put(`/programs/${id}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -166,6 +206,5 @@ export const users = {
   update: (id, data) => api.put(`/users/${id}`, data),
   delete: (id) => api.delete(`/users/${id}`)
 };
-
 
 export default api;

@@ -66,16 +66,16 @@ const Footer = () => {
             <div className="mt-6">
               <h3 className="text-lg font-bold text-white mb-4 uppercase">Follow Us</h3>
               <div className="flex gap-4">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="https://www.facebook.com/TheICHADproject?mibextid=LQQJ4d" className="text-gray-400 hover:text-white">
                   <i className="ri-facebook-box-fill text-3xl"></i>
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white">
-                  <i className="ri-twitter-fill text-3xl"></i>
+                <a href="https://www.tiktok.com/@theichadproject?_t=8oY3rXp1RBd&_r=1" className="text-gray-400 hover:text-white">
+                  <i className="ri-tiktok-fill text-3xl"></i>
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="https://www.instagram.com/theichadproject?igsh=eGZkMjRlZzJyejBs" className="text-gray-400 hover:text-white">
                   <i className="ri-instagram-fill text-3xl"></i>
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="https://www.linkedin.com/company/international-comunity-for-healthy-alternatives-on-drugs-ichad/" className="text-gray-400 hover:text-white">
                   <i className="ri-linkedin-box-fill text-3xl"></i>
                 </a>
               </div>

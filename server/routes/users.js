@@ -1,48 +1,51 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const usersController = require('../controllers/usersController');
+const userController = require('../controllers/userController');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/upload');
 const isSuperAdmin = require('../middleware/isSuperAdmin');
 
-// All routes require authentication
+// Public routes
+router.get('/test', (req, res) => {
+  res.json({ message: 'Users router is working!' });
+});
+
+// Protected routes - require authentication
 router.use(auth);
 
 // Get all users (superadmin only)
-router.get('/', isSuperAdmin, usersController.getAllUsers);
+router.get('/', isSuperAdmin, userController.getAllUsers);
 
 // Get single user
-router.get('/:id', usersController.getUser);
+router.get('/:id', userController.getUser);
 
 // Create new user (superadmin only)
 router.post('/',
   isSuperAdmin,
   upload.single('avatar'),
   [
-    body('name').notEmpty().trim(),
-    body('email').isEmail().normalizeEmail(),
-    body('password').isLength({ min: 6 }),
-    body('role').isIn(['admin', 'superadmin']),
-    body('status').isIn(['active', 'inactive'])
+    body('name').notEmpty().withMessage('Name is required'),
+    body('email').isEmail().withMessage('Valid email is required'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    body('role').optional().isIn(['admin', 'editor', 'user']).withMessage('Invalid role')
   ],
-  usersController.createUser
+  userController.createUser
 );
 
 // Update user
 router.put('/:id',
   upload.single('avatar'),
   [
-    body('name').notEmpty().trim(),
-    body('email').isEmail().normalizeEmail(),
-    body('password').optional().isLength({ min: 6 }),
-    body('role').optional().isIn(['admin', 'superadmin']),
-    body('status').optional().isIn(['active', 'inactive'])
+    body('name').optional(),
+    body('email').optional().isEmail().withMessage('Valid email is required'),
+    body('password').optional().isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    body('role').optional().isIn(['admin', 'editor', 'user']).withMessage('Invalid role')
   ],
-  usersController.updateUser
+  userController.updateUser
 );
 
 // Delete user (superadmin only)
-router.delete('/:id', isSuperAdmin, usersController.deleteUser);
+router.delete('/:id', isSuperAdmin, userController.deleteUser);
 
 module.exports = router; 

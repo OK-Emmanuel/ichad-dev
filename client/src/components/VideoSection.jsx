@@ -12,7 +12,7 @@ const VideoSection = () => {
             <div className="absolute inset-0">
               <div className="absolute inset-0 bg-black/50"></div>
               <img 
-                src="/src/assets/thumbnail.jpg" 
+                src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743186602/posts/yquz4cxqqhnnhohufm4u.jpg" 
                 alt="ICHAD Project Video" 
                 className="w-full h-full object-cover"
               />

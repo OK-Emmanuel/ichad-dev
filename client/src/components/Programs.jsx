@@ -1,5 +1,17 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { programs as programsApi } from '../services/api';
+import EmptyState from './EmptyState';
+import LoadingSpinner from './LoadingSpinner';
+
 const Programs = () => {
-  const programs = [
+  const [apiPrograms, setApiPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  // Hardcoded programs - commented out but kept for reference
+  /*
+  const hardcodedPrograms = [
     {
       title: "NAVIGATE",
       image: "/src/assets/navigate3.jpeg",
@@ -37,6 +49,47 @@ const Programs = () => {
       link: "/programs/xpression"
     }
   ];
+  */
+
+  // Fetch programs from API
+  useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        setLoading(true);
+        const response = await programsApi.getAll();
+        setApiPrograms(response.data.data || []);
+        setError(false);
+      } catch (error) {
+        console.error('Error fetching programs:', error);
+        setError(true);
+        setApiPrograms([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Fetch programs from the backend
+    fetchPrograms();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-8">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  // Show empty state when no programs are available
+  if (error || apiPrograms.length === 0) {
+    return (
+      <EmptyState
+        title="No Programs Available"
+        message="We're currently developing our programs. Please check back soon!"
+        icon="ri-community-line"
+      />
+    );
+  }
 
   return (
     <section className="py-16 bg-white">
@@ -53,15 +106,15 @@ const Programs = () => {
 
         {/* Programs Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {programs.map((program, index) => (
+          {apiPrograms.map((program, index) => (
             <div 
-              key={index}
+              key={program._id || index}
               className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image Container */}
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={program.image}
+                  src={program.coverImage || 'https://via.placeholder.com/400x300?text=Program+Image'}
                   alt={program.title}
                   className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
                 />
@@ -73,15 +126,15 @@ const Programs = () => {
                   {program.title}
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  {program.description}
+                  {program.summary || program.description}
                 </p>
-                <a
-                  href={program.link}
+                <Link
+                  to={`/programs/${program.slug}`}
                   className="inline-block px-6 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors duration-300"
                 >
                   Learn More
                   <span className="ml-2">→</span>
-                </a>
+                </Link>
               </div>
             </div>
           ))}

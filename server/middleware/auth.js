@@ -2,24 +2,28 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   try {
+    // Get token from header
     const token = req.header('Authorization')?.replace('Bearer ', '');
-
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
     }
 
-    // Log the token and decoded data
-    console.log('Token:', token);
+    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Decoded token:', decoded);
+    
+    // Attach user to request
+    req.user = {
+      userId: decoded.userId,
+      email: decoded.email,
+      role: decoded.role
+    };
 
-    req.user = decoded;
     next();
   } catch (error) {
-    console.error('Auth middleware error:', error);
+    console.error('Authentication error:', error);
     res.status(401).json({ 
-      message: 'Invalid token',
+      message: 'Invalid or expired token',
       error: error.message 
     });
   }
-}; 
+};

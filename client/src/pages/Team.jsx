@@ -8,17 +8,17 @@ const Team = () => {
   const executiveTeam = [
     {
       name: "Okey Davids",
-      role: "Community Director",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743267097/David-26_1_r0nn6o.jpg"
+      role: "Founder/ Community Director",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743683791/eupyzsmgwjyhemxnehqk.jpg"
     },
     {
-      name: "Amb. Msen Nabo",
-      role: "ICHAD Youth Ambassador",
+      name: "Godsgift Ibe",
+      role: "Partnership & Fundraising Officer",
       image: "/src/assets/team/template.jpg"
     },
     {
-      name: "Suzannah Aletile",
-      role: "EA/Board Liaison Officer",
+      name: "Azeez Akinola Bada",
+      role: "ICHAD Administrator",
       image: "/src/assets/team/template.jpg"
     },
     {
@@ -27,16 +27,21 @@ const Team = () => {
       image: "/src/assets/team/template.jpg"
     },
     {
-      name: "Bada Azeez",
-      role: "Admin Officer",
-      image: "/src/assets/team/template.jpg"
+      name: "Msen Nabo",
+      role: "ICHAD Youth Ambassador",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743683864/wiwiipaqqlnh3zcbzdh9.jpg"
     },
     {
       name: "Jemilat Yahaya",
-      role: "V. Youth Advisor, Intern Engagement & Management",
+      role: "Intern - ICHAD Youth Advisory Program Coordinator",
       image: "/src/assets/team/template.jpg"
     },
-    // Add more executive team members
+    {
+      name: "Suzannah Aletile",
+      role: "EA/Board Liaison Officer",
+      image: "/src/assets/team/template.jpg"
+    }
+    // Add any other executive team members
   ];
 
   const advisoryBoard = [
@@ -48,7 +53,7 @@ const Team = () => {
     {
       name: "Mrs. Fiona Wagbatsoma E",
       role: "Member",
-      image: "/src/assets/team/template.jpg"
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743683803/jfhl7502exntzkct6gsr.jpg"
     },
     {
       name: "Mr. Gbenga Remi",
@@ -58,7 +63,7 @@ const Team = () => {
     {
       name: "Mrs. Chidinma Kadiri",
       role: "Member",
-      image: "/src/assets/team/template.jpg"
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743683790/ehubby1vd2dzr3sylwwg.jpg"
     },
     {
       name: "Ms. Racheal Ajibade",

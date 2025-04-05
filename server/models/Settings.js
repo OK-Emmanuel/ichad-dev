@@ -4,22 +4,25 @@ const settingsSchema = new mongoose.Schema({
   siteName: {
     type: String,
     required: true,
-    default: 'Navigatu'
+    default: 'ICHAD PRoject'
   },
   siteDescription: {
     type: String,
     required: true,
-    default: 'Empowering Pacific Youth'
+    default: 'Purpose, Passion and Possibility'
   },
   contactEmail: {
     type: String,
-    required: true
+    required: true,
+    defualt: "info@ichadproject.org"
   },
   contactPhone: {
-    type: String
+    type: String,
+    default: "234 703 369 6676"
   },
   address: {
-    type: String
+    type: String,
+    default: "ICHAD Project Suit 11, Jesus is Lord Shopping complex, Ota 112104, Ogun State, Nigeria"
   },
   socialMedia: {
     facebook: String,
@@ -31,7 +34,7 @@ const settingsSchema = new mongoose.Schema({
   footer: {
     copyrightText: {
       type: String,
-      default: '© 2024 Navigatu. All rights reserved.'
+      default: '© 2025 ICHAD Project. All rights reserved.'
     },
     quickLinks: [{
       label: String,

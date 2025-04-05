@@ -1,19 +1,37 @@
+import { motion } from 'framer-motion';
+
 const TeamSection = () => {
+  // Organized by hierarchy based on roles
   const team = [
     {
       name: "Okey Davids",
-      role: "Community Director",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743267097/David-26_1_r0nn6o.jpg"
+      role: "Founder/ Community Director",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743683791/eupyzsmgwjyhemxnehqk.jpg"
     },
     {
-      name: "Amb. Msen Nabo",
+      name: "Godsgift Ibe",
+      role: "Partnership & Fundraising Officer",
+      image: "/src/assets/team/template.jpg"
+    },
+    {
+      name: "Azeez Akinola Bada",
+      role: "ICHAD Administrator",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743683793/m3iylzjjzval5cwccngi.jpg"
+    },
+    {
+      name: "Success Iselen",
+      role: "Social Media Manager",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743685865/gxxunxdt45wayvcwjfhy.jpg"
+    },
+    {
+      name: "Msen Nabo",
       role: "ICHAD Youth Ambassador",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743267097/David-26_1_r0nn6o.jpg"
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743683864/wiwiipaqqlnh3zcbzdh9.jpg"
     },
     {
-      name: "Suzannah Aletile",
-      role: "EA/Board Liaison Officer",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/t_Banner 16:9/v1743267097/David-26_1_r0nn6o.jpg"
+      name: "Jemilat Yahaya",
+      role: "Intern - ICHAD Youth Advisory Program Coordinator",
+      image: "/src/assets/team/template.jpg"
     }
   ];
 
@@ -24,16 +42,29 @@ const TeamSection = () => {
           <h2 className="text-3xl font-bold uppercase border-l-4 border-primary pl-4">
             Meet Our Team
           </h2>
+          <p className="mt-4 text-gray-600">
+            Dedicated professionals working to make a difference in the lives of young people
+          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {team.map((member, index) => (
-            <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+            >
               <div className="relative h-64 overflow-hidden">
                 <img
                   src={member.image}
                   alt={member.name}
                   className="w-full h-full object-cover transform hover:scale-105 transition-all duration-500"
+                  onError={(e) => {
+                    e.target.src = "https://via.placeholder.com/300x300?text=Team+Member";
+                  }}
                 />
               </div>
               <div className="p-6">
@@ -44,7 +75,7 @@ const TeamSection = () => {
                   {member.role}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -53,7 +84,7 @@ const TeamSection = () => {
             href="/team"
             className="inline-block px-8 py-3 bg-primary text-white rounded-full font-semibold hover:bg-primary-dark transition-all duration-300"
           >
-            See More
+            See Full Team
           </a>
         </div>
       </div>

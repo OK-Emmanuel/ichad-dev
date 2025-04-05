@@ -26,7 +26,8 @@ const Navbar = () => {
     { name: 'Our Impact', path: '/impact' },
     { name: 'News', path: '/news' },
     { name: 'Events', path: '/events' },
-    { name: 'Gallery', path: '/gallery' }
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Ebook', path: '/ebook' }
   ];
 
   return (

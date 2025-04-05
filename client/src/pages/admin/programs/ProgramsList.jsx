@@ -1,101 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AdminLayout from '../../../components/admin/AdminLayout';
-import DataTable from '../../../components/admin/DataTable';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { programs } from '../../../services/api';
+import EmptyState from '../../../components/EmptyState';
 
 const ProgramsList = () => {
-  const [data, setData] = useState([]);
+  const [programsList, setProgramsList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-
-  const columns = [
-    { 
-      key: 'title', 
-      label: 'Title',
-      render: (item) => (
-        <div>
-          <div className="font-medium text-gray-900">
-            {item.title.length > 30 
-              ? `${item.title.substring(0, 30)}...` 
-              : item.title}
-          </div>
-          {item.excerpt && (
-            <div className="text-sm text-gray-500 truncate">
-              {item.excerpt.length > 30 
-                ? `${item.excerpt.substring(0, 30)}...` 
-                : item.excerpt}
-            </div>
-          )}
-        </div>
-      )
-    },
-    { 
-      key: 'status', 
-      label: 'Status',
-      render: (item) => {
-        const statusConfig = {
-          published: {
-            color: 'bg-green-100 text-green-800',
-            icon: 'ri-check-line'
-          },
-          draft: {
-            color: 'bg-yellow-100 text-yellow-800',
-            icon: 'ri-draft-line'
-          }
-        };
-        const config = statusConfig[item.status] || statusConfig.draft;
-        
-        return (
-          <span className={`px-3 py-1 rounded-full text-xs flex items-center w-fit gap-1 ${config.color}`}>
-            <i className={config.icon}></i>
-            {item.status}
-          </span>
-        );
-      }
-    },
-    { 
-      key: 'publishedAt', 
-      label: 'Published Date',
-      render: (item) => (
-        <div>
-          {item.publishedAt ? (
-            <>
-              <div>{new Date(item.publishedAt).toLocaleDateString()}</div>
-              <div className="text-xs text-gray-500">
-                {new Date(item.publishedAt).toLocaleTimeString()}
-              </div>
-            </>
-          ) : (
-            <span className="text-gray-500">-</span>
-          )}
-        </div>
-      )
-    },
-    { 
-      key: 'author', 
-      label: 'Author',
-      render: (item) => (
-        <div className="flex items-center gap-2">
-          {item.author?.avatar ? (
-            <img 
-              src={item.author.avatar} 
-              alt={item.author.name}
-              className="w-6 h-6 rounded-full"
-            />
-          ) : (
-            <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
-              <i className="ri-user-line text-gray-500"></i>
-            </div>
-          )}
-          <span>{item.author?.name || '-'}</span>
-        </div>
-      )
-    }
-  ];
 
   useEffect(() => {
     fetchPrograms();
@@ -104,78 +17,138 @@ const ProgramsList = () => {
   const fetchPrograms = async () => {
     try {
       setLoading(true);
-      setError(null);
       const response = await programs.getAll();
-      setData(response.data?.data || []);
+      setProgramsList(response.data.data || []);
     } catch (error) {
       console.error('Error fetching programs:', error);
-      setError('Failed to fetch programs');
+      // Set empty array instead of showing error
+      setProgramsList([]);
       toast.error('Failed to fetch programs');
-      setData([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleEdit = (program) => {
-    navigate(`/admin/programs/edit/${program._id}`);
-  };
-
-  const handleDelete = async (program) => {
-    try {
-      const confirmed = window.confirm(
-        `Are you sure you want to delete "${program.title}"? This action cannot be undone.`
-      );
-      
-      if (confirmed) {
-        const response = await programs.delete(program._id);
-        
-        if (response.data.success) {
-          toast.success('Program deleted successfully');
-          fetchPrograms();
-        } else {
-          throw new Error(response.data.message || 'Failed to delete program');
-        }
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this program?')) {
+      try {
+        await programs.delete(id);
+        toast.success('Program deleted successfully');
+        fetchPrograms();
+      } catch (error) {
+        console.error('Error deleting program:', error);
+        toast.error('Failed to delete program');
       }
-    } catch (error) {
-      console.error('Error deleting program:', error);
-      toast.error(error.response?.data?.message || 'Failed to delete program. Please try again.');
     }
   };
 
-  return (
-    <AdminLayout>
-      <div className="mb-6 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Programs</h1>
-          <p className="text-gray-600 mt-1">Manage your programs</p>
-        </div>
-        <button
-          onClick={() => navigate('/admin/programs/new')}
-          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center gap-2"
-        >
-          <i className="ri-add-line"></i>
-          New Program
-        </button>
-      </div>
-
-      {error ? (
-        <div className="text-red-500 text-center py-8">{error}</div>
-      ) : loading ? (
+  if (loading) {
+    return (
+      <AdminLayout>
         <div className="flex justify-center py-8">
           <LoadingSpinner />
         </div>
-      ) : (
-        <DataTable
-          columns={columns}
-          data={data}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          searchable={true}
-          pagination={true}
-          itemsPerPage={10}
-        />
-      )}
+      </AdminLayout>
+    );
+  }
+
+  return (
+    <AdminLayout>
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Programs</h1>
+          <Link to="/admin/programs/new" className="btn-primary">
+            <i className="ri-add-line mr-2"></i>
+            Add Program
+          </Link>
+        </div>
+
+        {programsList.length === 0 ? (
+          <EmptyState
+            title="No Programs Yet"
+            message="Start by adding your first program."
+            icon="ri-community-line"
+            action={
+              <Link to="/admin/programs/new" className="btn-primary">
+                Add First Program
+              </Link>
+            }
+          />
+        ) : (
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Title
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Created
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {programsList.map((program) => (
+                  <tr key={program._id}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        {program.coverImage ? (
+                          <div className="flex-shrink-0 h-10 w-10 mr-4">
+                            <img
+                              className="h-10 w-10 rounded-full object-cover"
+                              src={program.coverImage}
+                              alt={program.title}
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                            <i className="ri-community-line text-gray-500"></i>
+                          </div>
+                        )}
+                        <div className="text-sm font-medium text-gray-900">
+                          {program.title}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        program.status === 'published' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {program.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(program.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <Link
+                        to={`/admin/programs/edit/${program._id}`}
+                        className="text-indigo-600 hover:text-indigo-900 mr-4"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(program._id)}
+                        className="text-red-600 hover:text-red-900"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </AdminLayout>
   );
 };

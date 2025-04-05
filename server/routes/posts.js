@@ -5,6 +5,8 @@ const postsController = require('../controllers/postsController');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/upload');
 
+console.log('Loading posts routes');
+
 // Public routes - no auth required
 router.get('/', postsController.getAllPosts);
 router.get('/:slug', postsController.getPost);
@@ -25,7 +27,13 @@ router.post('/',
       .notEmpty().withMessage('Status is required')
       .isIn(['draft', 'published']).withMessage('Status must be either draft or published')
   ],
-  postsController.createPost
+  (req, res) => {
+    console.log('POST /api/posts - Request received');
+    console.log('Request body:', req.body);
+    console.log('Request file:', req.file);
+    
+    postsController.createPost(req, res);
+  }
 );
 
 // Handle post update with optional image

@@ -1,4 +1,10 @@
+// Add this at the top of the file for debugging
+// console.log('Loading Program model');
+
 const mongoose = require('mongoose');
+const slugify = require('slugify');
+
+// console.log('Creating program schema');
 
 const programSchema = new mongoose.Schema({
   title: {
@@ -6,14 +12,20 @@ const programSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  description: {
+  slug: {
+    type: String,
+    unique: true,
+    lowercase: true
+  },
+  summary: {
+    type: String,
+    trim: true
+  },
+  content: {
     type: String,
     required: true
   },
-  featuredImage: {
-    type: String
-  },
-  imagePublicId: {
+  coverImage: {
     type: String
   },
   status: {
@@ -21,23 +33,26 @@ const programSchema = new mongoose.Schema({
     enum: ['draft', 'published'],
     default: 'draft'
   },
-  author: {
+  createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: 'User'
   }
 }, {
   timestamps: true
 });
 
-// Add pre-save hook to set publishedAt date when status changes to published
+// Generate slug from title before saving
 programSchema.pre('save', function(next) {
-  if (this.status === 'published' && !this.publishedAt) {
-    this.publishedAt = Date.now();
+  console.log('Pre-save hook running for program:', this.title);
+  if (this.isModified('title')) {
+    this.slug = slugify(this.title, { lower: true, strict: true });
+    console.log('Generated slug:', this.slug);
   }
   next();
 });
 
+console.log('Creating Program model');
 const Program = mongoose.model('Program', programSchema);
+console.log('Program model created');
 
 module.exports = Program; 

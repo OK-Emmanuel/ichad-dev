@@ -3,20 +3,20 @@ const Impact = () => {
     {
       number: "1000+",
       label: "Young Adults Reached",
-      description: "Through our NAVIGATE program across Nigeria"
+      description: "Through our NAVIGATE program across Africa"
     },
     {
       number: "4000+",
       label: "Pupils Reached",
-      description: "Through our School Drug Sensitization Project"
+      description: "Through our School Drug Sensitization and prevention Project"
     },
     {
-      number: "20+",
+      number: "30+",
       label: "Schools Engaged",
       description: "Multiple engagements through our School Project"
     },
     {
-      number: "200+",
+      number: "250+",
       label: "Navigate Graduates",
       description: "Successfully completed the Navigate mentorship Academy"
     }

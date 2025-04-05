@@ -46,7 +46,7 @@ const Events = () => {
         {/* Banner */}
         <header className="h-[60vh] relative">
           <img
-            src="/src/assets/events-banner.jpg"
+            src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743186602/posts/yquz4cxqqhnnhohufm4u.jpg"
             alt="ICHAD Events"
             className="w-full h-full object-cover"
           />

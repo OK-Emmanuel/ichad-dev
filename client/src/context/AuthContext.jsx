@@ -7,13 +7,29 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    checkAuth();
+    const initializeAuth = async () => {
+      try {
+        if (auth.isAuthenticated()) {
+          const storedUser = localStorage.getItem('auth_user');
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          }
+          const freshUser = await auth.getCurrentUser();
+          if (freshUser) {
+            setUser(freshUser);
+          }
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    initializeAuth();
   }, []);
 
-  // Set up refresh token interval
   useEffect(() => {
     if (!auth.isAuthenticated()) return;
 
@@ -21,32 +37,18 @@ export const AuthProvider = ({ children }) => {
       try {
         await auth.refreshToken();
       } catch (error) {
-        console.error('Failed to refresh token:', error);
-        logout();
+        console.error('Token refresh failed:', error);
+        setUser(null); // Logout on failure, but we'll improve this later
+        toast.error('Session expired. Please log in again.');
       }
-    }, 4 * 60 * 1000); // Refresh every 4 minutes
+    }, 12 * 60 * 1000); // Refresh every 12 minutes (close to 15m expiry)
 
     return () => clearInterval(refreshInterval);
   }, [user]);
 
-  const checkAuth = async () => {
+  const login = async (credentials) => {
     try {
-      if (auth.isAuthenticated()) {
-        const { data } = await auth.getCurrentUser();
-        setUser(data.user);
-      }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-      localStorage.removeItem('auth_token');
-    } finally {
-      setLoading(false);
-      setInitialized(true);
-    }
-  };
-
-  const login = async (credentials, remember = false) => {
-    try {
-      const { user: userData } = await auth.login(credentials, remember);
+      const { user: userData } = await auth.login(credentials);
       setUser(userData);
       return userData;
     } catch (error) {
@@ -60,25 +62,23 @@ export const AuthProvider = ({ children }) => {
     try {
       await auth.logout();
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('Logout error:', error);
     } finally {
       setUser(null);
-      localStorage.removeItem('auth_token');
     }
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        user, 
-        loading, 
-        initialized,
-        login, 
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
         logout,
-        isAuthenticated: auth.isAuthenticated 
+        isAuthenticated: auth.isAuthenticated,
       }}
     >
-      {initialized && children}
+      {!loading ? children : <div>Loading...</div>}
     </AuthContext.Provider>
   );
 };
@@ -89,4 +89,4 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}; 
+};

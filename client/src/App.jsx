@@ -35,135 +35,144 @@ import EditUser from './pages/admin/users/EditUser';
 import EventDetails from './pages/EventDetails';
 import AlbumForm from './pages/admin/gallery/AlbumForm';
 import BulkUploadPage from './pages/admin/gallery/BulkUploadPage';
+import Program from './pages/Program';
+import { ConfettiProvider } from './contexts/ConfettiContext';
+import ConfettiEffect from './components/ConfettiEffect';
+import Ebook from './pages/Ebook';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/what-we-do" element={<WhatWeDo />} />
-          <Route path="/impact" element={<Impact />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:slug" element={<NewsPost />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/login" element={<Login />} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={
-            <ProtectedRoute>
-              <Navigate to="/admin/dashboard" replace />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/posts" element={
-            <ProtectedRoute>
-              <PostsList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/posts/new" element={<NewPost />} />
-          <Route path="/admin/posts/edit/:id" element={<EditPost />} />
-          <Route path="/admin/programs" element={
-            <ProtectedRoute>
-              <ProgramsList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/programs/new" element={
-            <ProtectedRoute>
-              <NewProgram />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/programs/edit/:id" element={
-            <ProtectedRoute>
-              <EditProgram />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/events" element={
-            <ProtectedRoute>
-              <EventsList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/events/new" element={
-            <ProtectedRoute>
-              <NewEvent />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/events/edit/:id" element={
-            <ProtectedRoute>
-              <EditEvent />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/gallery" element={
-            <ProtectedRoute>
-              <GalleryList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/gallery/new" element={
-            <ProtectedRoute>
-              <NewGallery />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/gallery/edit/:id" element={
-            <ProtectedRoute>
-              <EditGallery />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/gallery/bulk-upload" element={<BulkUploadPage />} />
-          {/* <Route path="/admin/gallery/categories" element={
-            <ProtectedRoute>
-              <CategoryManager />
-            </ProtectedRoute>
-          } /> */}
-          <Route path="/admin/settings" element={
-            <ProtectedRoute>
-              <SettingsManager />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/gallery/albums/new" element={
-            <ProtectedRoute>
-              <AlbumForm />
-            </ProtectedRoute>
-          } />
-          
-          {/* User Management Routes */}
-          <Route path="/admin/users" element={
-            <ProtectedRoute>
-              <UsersList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/users/new" element={
-            <ProtectedRoute>
-              <NewUser />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/users/edit/:id" element={
-            <ProtectedRoute>
-              <EditUser />
-            </ProtectedRoute>
-          } />
-          <Route path="/events/:id" element={<EventDetails />} />
-        </Routes>
-      </Router>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        limit={1}
-      />
-    </AuthProvider>
+    <ConfettiProvider>
+      <AuthProvider>
+        <Router>
+          <ConfettiEffect />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/what-we-do" element={<WhatWeDo />} />
+            <Route path="/impact" element={<Impact />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:slug" element={<NewsPost />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/ebook" element={<Ebook />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <Navigate to="/admin/dashboard" replace />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/dashboard" element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/posts" element={
+              <ProtectedRoute>
+                <PostsList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/posts/new" element={<NewPost />} />
+            <Route path="/admin/posts/edit/:id" element={<EditPost />} />
+            <Route path="/admin/programs" element={
+              <ProtectedRoute>
+                <ProgramsList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/programs/new" element={
+              <ProtectedRoute>
+                <NewProgram />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/programs/edit/:id" element={
+              <ProtectedRoute>
+                <EditProgram />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/events" element={
+              <ProtectedRoute>
+                <EventsList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/events/new" element={
+              <ProtectedRoute>
+                <NewEvent />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/events/edit/:id" element={
+              <ProtectedRoute>
+                <EditEvent />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/gallery" element={
+              <ProtectedRoute>
+                <GalleryList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/gallery/new" element={
+              <ProtectedRoute>
+                <NewGallery />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/gallery/edit/:id" element={
+              <ProtectedRoute>
+                <EditGallery />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/gallery/bulk-upload" element={<BulkUploadPage />} />
+            {/* <Route path="/admin/gallery/categories" element={
+              <ProtectedRoute>
+                <CategoryManager />
+              </ProtectedRoute>
+            } /> */}
+            <Route path="/admin/settings" element={
+              <ProtectedRoute>
+                <SettingsManager />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/gallery/albums/new" element={
+              <ProtectedRoute>
+                <AlbumForm />
+              </ProtectedRoute>
+            } />
+            
+            {/* User Management Routes */}
+            <Route path="/admin/users" element={
+              <ProtectedRoute>
+                <UsersList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users/new" element={
+              <ProtectedRoute>
+                <NewUser />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users/edit/:id" element={
+              <ProtectedRoute>
+                <EditUser />
+              </ProtectedRoute>
+            } />
+            <Route path="/events/:id" element={<EventDetails />} />
+            <Route path="/programs/:slug" element={<Program />} />
+          </Routes>
+        </Router>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          limit={1}
+        />
+      </AuthProvider>
+    </ConfettiProvider>
   );
 }
 

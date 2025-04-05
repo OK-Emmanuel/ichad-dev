@@ -4,63 +4,13 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import CallToAction from '../components/CallToAction';
-import Hub from '../components/Hub';
 import TeamSection from '../components/TeamSection';
+import SDGComponent from '../components/SDGComponent';
+import ValuesComponent from '../components/ValuesComponent';
+import HubsComponent from '../components/HubsComponent';
 
 const About = () => {
-  const hubs = [
-    {
-      name: "OAU Hub",
-      location: "Surulere, Lagos",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
-      description: "Our primary hub serving the youth of Lagos State with comprehensive programs and facilities.",
-      programs: [
-        "NAVIGATE Program",
-        "Drug Prevention Champions",
-        "School Sensitization",
-        "Skills Development"
-      ]
-    },
-    {
-      name: "UNIHLAG Hub",
-      location: "Surulere, Lagos",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
-      description: "Our primary hub serving the youth of Lagos State with comprehensive programs and facilities.",
-      programs: [
-        "NAVIGATE Program",
-        "Drug Prevention Champions",
-        "School Sensitization",
-        "Skills Development"
-      ]
-    },
-    {
-      name: "YABATECH Hub",
-      location: "Surulere, Lagos",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
-      description: "Our primary hub serving the youth of Lagos State with comprehensive programs and facilities.",
-      programs: [
-        "NAVIGATE Program",
-        "Drug Prevention Champions",
-        "School Sensitization",
-        "Skills Development"
-      ]
-    },
-    // Add other hubs
-  ];
-
-  const sdgs = [
-    {
-      number: 3,
-      title: "Good Health and Well-being",
-      description: "Promoting healthy lives and well-being for youth"
-    },
-    {
-      number: 4,
-      title: "Quality Education",
-      description: "Ensuring inclusive and quality education"
-    },
-    // Add other SDGs
-  ];
+ 
 
   const values = [
     {
@@ -129,8 +79,8 @@ const About = () => {
           </div>
         </header>
 
-        {/* Mission & Vision Section */}
-        <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        {/* About Us Section */}
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <motion.div
@@ -139,20 +89,19 @@ const About = () => {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <div>
-                  <h2 className="text-3xl font-bold mb-4 text-primary">Our Mission</h2>
-                  <p className="text-gray-600 leading-relaxed">
-                    To empower young people with knowledge, skills, and opportunities
-                    for a drug-free and purposeful life while fostering community development.
-                  </p>
-                </div>
-                <div>
-                  <h2 className="text-3xl font-bold mb-4 text-secondary">Our Vision</h2>
-                  <p className="text-gray-600 leading-relaxed">
-                    A world where every young person lives free from drug abuse,
-                    equipped with the tools to reach their full potential.
-                  </p>
-                </div>
+                <h2 className="text-3xl font-bold mb-4 text-primary">About Us</h2>
+                <p className="text-lg mb-6">
+                  At <strong>the ICHAD Project</strong>, we are dedicated to <strong>empowering adolescents and young adults</strong> with the <strong>resilience, skills, and support systems</strong> they need to thrive, without resorting to harmful substances.
+                </p>
+                <p className="text-lg mb-6">
+                  Across our communities, the <strong>rising rates of substance use and abuse among young people</strong> are deeply concerning. Many are driven to drugs by <strong>unemployment, limited opportunities, social pressures, Family dysfunctionality, and mental health struggles</strong>. At ICHAD, we believe that the best way to prevent substance abuse is by <strong>addressing its root causes</strong> and <strong>offering meaningful alternatives</strong>.
+                </p>
+                <p className="text-lg">
+                  Through our <strong>education, Mentorship, skill development, mental health support, and community engagement programs</strong>, we equip young people with <strong>practical tools for success</strong>.
+                </p>
+                <p className="text-lg">
+                  At ICHAD, we are <strong>not just preventing drug use</strong>, we are <strong>building a generation of young leaders, innovators, and changemakers</strong> who are equipped to lead healthy, purpose-driven lives.
+                </p>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
@@ -162,8 +111,8 @@ const About = () => {
               >
                 <div className="absolute inset-0 bg-primary/10 rounded-full transform -rotate-6" />
                 <img
-                  src="https://scontent-zrh1-1.xx.fbcdn.net/v/t39.30808-6/482359442_630685819669940_4517958022707485434_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEcCOcCHsRI8oZGzIU0TlWq6MYJYDvu1rfoxglgO-7Wt1U3tMD85IHSudIhSHDIZW69oDBHeyQKFxXesgyrtgz_&_nc_ohc=09ZI1ZTfv0kQ7kNvgF3adnl&_nc_oc=AdlMSAfTAwagZS1GlK-3wUhS4vQ7votZDle81PuuFeCdu0Oe3RtEdat2hrhkV4ykseU&_nc_zt=23&_nc_ht=scontent-zrh1-1.xx&_nc_gid=WMV4zHv2aN7dT_YkPdwegQ&oh=00_AYHjK-O5CIqgd3syQqK-kt8I1WvjHouVu_7K1k3x4GNsBA&oe=67EDD7FB"
-                  alt="Our Impact"
+                  src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743263449/FRONT_3_h0bonu.jpg"
+                  alt="About ICHAD"
                   className="relative rounded-lg shadow-xl"
                 />
               </motion.div>
@@ -171,192 +120,108 @@ const About = () => {
           </div>
         </section>
 
-        {/* Original About Content */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-[1100px] mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">About ICHAD Project</h2>
-                <p className="text-gray-600 max-w-3xl mx-auto">
-                  The Initiative for Community Health and Development (ICHAD) Project is a youth-focused 
-                  non-profit organization committed to preventing drug abuse and promoting youth development.
+        {/* Vision & Mission Section */}
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4 max-w-[1100px]">
+            <div className="grid md:grid-cols-2 gap-12">
+              {/* Vision */}
+              <div className="bg-primary p-8 rounded-lg shadow-lg text-white">
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold border-l-4 border-white pl-4">
+                    Our Vision
+                  </h2>
+                </div>
+                <p className="leading-relaxed opacity-90">
+                  We envision a world where every young person is empowered with the skills, support, and opportunities to lead a life free from drugs, full of purpose, and rich in possibilities.
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8 mb-12">
-                <div>
-                  <img
-                    src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743265297/IMG_0953_perjad.jpg"
-                    alt="About ICHAD"
-                    className="rounded-lg shadow-2xl w-full h-[400px] object-cover"
-                  />
+              {/* Mission */}
+              <div className="bg-white p-8 rounded-lg shadow-lg">
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold border-l-4 border-primary pl-4">
+                    Our Mission
+                  </h2>
                 </div>
-                <div className="flex items-center">
-                  <div>
-                    <h3 className="text-2xl font-bold mb-4">Our Story</h3>
-                    <p className="text-gray-600 mb-6">
-                      Founded in response to the growing challenges of drug abuse among young people,
-                      ICHAD Project has evolved into a comprehensive youth development initiative.
-                    </p>
-                    <p className="text-gray-600">
-                      Through our various programs and interventions, we work to create lasting positive
-                      change in communities across Nigeria.
-                    </p>
-                  </div>
-                </div>
+                <p className="text-gray-700 leading-relaxed">
+                  Our mission is simple but powerful; To prevent drug use by providing young people with sustainable alternatives that empower them mentally, socially and economically.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Original Programs Section */}
-        <section className="py-16 bg-gray-50">
+        {/* Our Story Section */}
+        <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="max-w-[1100px] mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">Our Programs</h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
-                  Through our comprehensive programs, we create lasting impact in the lives of young 
-                  people and their communities.
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="relative order-2 md:order-1"
+              >
+                <div className="absolute inset-0 bg-primary/10 rounded-full transform rotate-6" />
+                <img
+                  src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743263449/FRONT_3_h0bonu.jpg"
+                  alt="Our Story"
+                  className="relative rounded-lg shadow-xl"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="space-y-6 order-1 md:order-2"
+              >
+                <h2 className="text-3xl font-bold mb-4 text-primary">Our Story</h2>
+                <p className="text-lg mb-6">
+                  The ICHAD Project was born out of a deep concern for the rising rates of drug abuse among young people; a crisis fueled by unemployment, lack of opportunities, and social pressures. What began as a mission to prevent substance abuse has grown into a movement of <strong>empowerment,</strong> <strong>resilience</strong>, and <strong>hope.</strong>
+                </p>
+                <p className="text-lg mb-6">
+                  We believe that the best way to keep young people away from drugs is to equip them with the skills, support, and opportunities they need to thrive. Through mentorship, skills training, mental health support, and creative expression, we are transforming lives and communities; one young person at a time.
+                </p>
+                <p className="text-lg">
+                  Today, ICHAD is more than just an initiative; it's a lifeline. We stand as a guiding light, ensuring that every young person has the chance to rewrite their story, not with drugs, but with <strong>purpose,</strong> <strong>passion,</strong> and <strong>possibility.</strong>
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Our Philosophy & Why We Exist Section */}
+        <section className="py-16 bg-primary text-white">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-12">
+              {/* Philosophy */}
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold mb-6 border-l-4 border-white pl-4">Our Philosophy</h2>
+                <p className="text-md leading-relaxed">
+                  Our Philosophy provides opportunities for young people to reach their full potential, imbibe the skills and confidence to make healthy choices that enables them successfully navigate adolescents. While our focus is to keep young people drug and alcohol free, we believe that the most effective way to do this is by addressing ROOT CAUSES which contribute to drug and alcohol use and abuse.
                 </p>
               </div>
               
-              <div className="grid md:grid-cols-2 gap-6">
-                {[
-                  {
-                    title: "NAVIGATE",
-                    desc: "An eight-week online mentorship program equipping participants with knowledge, skills, and confidence for healthier, substance-free lives."
-                  },
-                  {
-                    title: "Project Enable",
-                    desc: "Providing young adults with employable skills through the ICHAD School Of Skills (I-SOS)."
-                  },
-                  {
-                    title: "Project Enable",
-                    desc: "Providing young adults with employable skills through the ICHAD School Of Skills (I-SOS)."
-                  },
-                  {
-                    title: "Project Enable",
-                    desc: "Providing young adults with employable skills through the ICHAD School Of Skills (I-SOS)."
-                  },
-                  {
-                    title: "Project Enable",
-                    desc: "Providing young adults with employable skills through the ICHAD School Of Skills (I-SOS)."
-                  },
-                  {
-                    title: "Project Enable",
-                    desc: "Providing young adults with employable skills through the ICHAD School Of Skills (I-SOS)."
-                  },
-                  {
-                    title: "Project Enable",
-                    desc: "Providing young adults with employable skills through the ICHAD School Of Skills (I-SOS)."
-                  },
-                  {
-                    title: "Project Enable",
-                    desc: "Providing young adults with employable skills through the ICHAD School Of Skills (I-SOS)."
-                  },
-                  // ... rest of the programs remain the same ...
-                ].map((program, index) => (
-                  <div 
-                    key={index}
-                    className={`relative p-6 rounded-lg transition-all duration-300 hover:shadow-lg ${
-                      Math.floor(index/2) % 2 === 0 ? 'bg-primary text-white' : 'bg-primary-light'
-                    }`}
-                  >
-                    <div className="absolute left-2 top-[22px] w-3 h-3 transform rotate-45 bg-white/80"></div>
-                    <h3 className="font-semibold mb-2 text-white">
-                      {program.title}
-                    </h3>
-                    <p className="text-white/90 text-sm">
-                      {program.desc}
-                    </p>
-                  </div>
-                ))}
+              {/* Why We Exist */}
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold mb-6 border-l-4 border-white pl-4">Why We Exist</h2>
+                <p className="text-lg leading-relaxed">
+                We believe in the power of prevention, education, and community support to create lasting change.
+
+                </p>
+                
               </div>
             </div>
           </div>
         </section>
-
-        {/* Our Why Section */}
-        <section className="py-20 bg-primary text-white">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-3xl mx-auto text-center"
-            >
-              <h2 className="text-4xl font-bold mb-8">Why We Exist</h2>
-              <p className="text-xl leading-relaxed opacity-90">
-                In a world where young people face increasing challenges with drug abuse
-                and limited opportunities, ICHAD stands as a beacon of hope and transformation.
-                We believe in the power of prevention, education, and community support to
-                create lasting change.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Values Section */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-16">Our Core Values</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {values.map((value, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
-                  className="text-center p-6 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  <i className={`${value.icon} text-5xl text-secondary mb-4`}></i>
-                  <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                  <p className="text-gray-600">{value.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
+      
         {/* SDGs Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-16">
-              Supporting UN Sustainable Development Goals
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4 shadow-xl">
-              {sdgs.map((sdg, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="bg-white p-6 rounded-lg shadow-lg"
-                >
-                  <div className="w-16 h-16 bg-secondary text-white rounded-full flex items-center justify-center text-center text-2xl font-bold mb-4">
-                    {sdg.number}
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{sdg.title}</h3>
-                  <p className="text-gray-600">{sdg.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <SDGComponent />
+
+        {/* Our Values Section */}
+        <ValuesComponent />
 
         {/* Our Hubs Section */}
-        <section className="py-20 hover:shadow-2xl">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-16">Our Hubs</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {hubs.map((hub, index) => (
-                <Hub key={index} {...hub} />
-              ))}
-            </div>
-          </div>
-        </section>
+        <HubsComponent />
         <TeamSection />
 
         <CallToAction />
@@ -367,4 +232,4 @@ const About = () => {
   );
 };
 
-export default About; 
+export default About;

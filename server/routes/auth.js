@@ -10,7 +10,7 @@ router.post('/login', [
 ], authController.login);
 
 router.post('/logout', auth, authController.logout);
-router.post('/refresh', authController.refresh);
+router.post('/refresh', authController.refreshToken);
 router.get('/me', auth, authController.getCurrentUser);
 
 module.exports = router; 
