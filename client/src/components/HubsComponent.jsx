@@ -6,28 +6,28 @@ const HubsComponent = () => {
       name: "Unilag",
       location: "University of Lagos",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/UNILAG_ygfauk.jpg",
       programs: ["NAVIGATE Program", "Drug Prevention Champions"]
     },
     {
       name: "OAU",
       location: "Obafemi Awolowo University",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/OAU_jygcqt.jpg",
       programs: ["NAVIGATE Program", "School Sensitization"]
     },
     {
       name: "Yabatech",
       location: "Yaba College of Technology",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/YABATECH_bc2owc.jpg",
       programs: ["Skills Development", "Mental Health Support"]
     },
     {
       name: "ICHAD Portharcourt",
       location: "Port Harcourt, Rivers State",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
+      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/PORTHARCOURT_jf5iao.jpg",
       programs: ["Community Outreach", "Youth Advocacy"]
     }
   ];
@@ -69,7 +69,7 @@ const HubsComponent = () => {
                     {hub.email}
                   </a>
                 </div>
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   {hub.programs.map((program, idx) => (
                     <div 
                       key={idx}
@@ -79,7 +79,7 @@ const HubsComponent = () => {
                       {program}
                     </div>
                   ))}
-                </div>
+                </div> */}
               </div>
             </motion.div>
           ))}
