@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { programs as programsApi } from '../services/api';
 import EmptyState from './EmptyState';
 import LoadingSpinner from './LoadingSpinner';
+import navigate3 from '../assets/navigate3.jpeg';
 
 const Programs = () => {
   // const [apiPrograms, setApiPrograms] = useState([]);
@@ -13,7 +14,7 @@ const Programs = () => {
   const hardcodedPrograms = [
     {
       title: "NAVIGATE",
-      image: "/src/assets/navigate3.jpeg",
+      image: navigate3,
       description: "An eight-week online mentorship program designed to equip participants with the knowledge, skills, and confidence needed to make informed decisions, build essential life skills, and lead healthier, substance-free lives.",
       link: "/programs/navigate"
     },
@@ -31,7 +32,7 @@ const Programs = () => {
     },
     {
       title: "Drug Prevention Champions",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263449/FRONT_3_h0bonu.jpg",
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413831/FRONT_2_gov7f8_jlhk1s.jpg",
       description: "A program designed specifically for students in tertiary institutions, aimed at equipping them with the knowledge, skills, and leadership capabilities to become effective drug prevention ambassadors within their campuses and beyond.",
       link: "/programs/champions"
     },
