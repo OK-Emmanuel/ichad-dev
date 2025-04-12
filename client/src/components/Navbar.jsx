@@ -39,7 +39,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <img src={logo} alt="ICHAD Logo" className="h-16" />
+              <img src={logo} alt="ICHAD Logo" className="h-12" />
             </Link>
           </div>
 
