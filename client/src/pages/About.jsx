@@ -56,7 +56,7 @@ const About = () => {
         {/* Hero Section */}
         <header className="relative h-[80vh]">
           <img
-            src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743263449/FRONT_3_h0bonu.jpg"
+            src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg"
             alt="About ICHAD"
             className="w-full h-full object-cover"
           />
@@ -91,16 +91,16 @@ const About = () => {
               >
                 <h2 className="text-3xl font-bold mb-4 text-primary">About Us</h2>
                 <p className="text-lg mb-6">
-                  At <strong>the ICHAD Project</strong>, we are dedicated to <strong>empowering adolescents and young adults</strong> with the <strong>resilience, skills, and support systems</strong> they need to thrive, without resorting to harmful substances.
+                  At the ICHAD Project, we are dedicated to empowering adolescents and young adults with the resilience, skills, and support systems they need to thrive, without resorting to harmful substances.
                 </p>
                 <p className="text-lg mb-6">
-                  Across our communities, the <strong>rising rates of substance use and abuse among young people</strong> are deeply concerning. Many are driven to drugs by <strong>unemployment, limited opportunities, social pressures, Family dysfunctionality, and mental health struggles</strong>. At ICHAD, we believe that the best way to prevent substance abuse is by <strong>addressing its root causes</strong> and <strong>offering meaningful alternatives</strong>.
+                  Across our communities, the rising rates of substance use and abuse among young people are deeply concerning. Many are driven to drugs by unemployment, limited opportunities, social pressures, Family dysfunctionality, and mental health struggles. At ICHAD, we believe that the best way to prevent substance abuse is by addressing its root causes and offering meaningful alternatives.
                 </p>
                 <p className="text-lg">
-                  Through our <strong>education, Mentorship, skill development, mental health support, and community engagement programs</strong>, we equip young people with <strong>practical tools for success</strong>.
+                  Through our education, Mentorship, skill development, mental health support, and community engagement programs, we equip young people with practical tools for success.
                 </p>
                 <p className="text-lg">
-                  At ICHAD, we are <strong>not just preventing drug use</strong>, we are <strong>building a generation of young leaders, innovators, and changemakers</strong> who are equipped to lead healthy, purpose-driven lives.
+                  At ICHAD, we are not just preventing drug use, we are building a generation of young leaders, innovators, and changemakers who are equipped to lead healthy, purpose-driven lives.
                 </p>
               </motion.div>
               <motion.div
@@ -111,7 +111,7 @@ const About = () => {
               >
                 <div className="absolute inset-0 bg-primary/10 rounded-full transform -rotate-6" />
                 <img
-                  src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743263449/FRONT_3_h0bonu.jpg"
+                  src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg"
                   alt="About ICHAD"
                   className="relative rounded-lg shadow-xl"
                 />
@@ -163,7 +163,7 @@ const About = () => {
               >
                 <div className="absolute inset-0 bg-primary/10 rounded-full transform rotate-6" />
                 <img
-                  src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743263449/FRONT_3_h0bonu.jpg"
+                  src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg"
                   alt="Our Story"
                   className="relative rounded-lg shadow-xl"
                 />
@@ -176,13 +176,13 @@ const About = () => {
               >
                 <h2 className="text-3xl font-bold mb-4 text-primary">Our Story</h2>
                 <p className="text-lg mb-6">
-                  The ICHAD Project was born out of a deep concern for the rising rates of drug abuse among young people; a crisis fueled by unemployment, lack of opportunities, and social pressures. What began as a mission to prevent substance abuse has grown into a movement of <strong>empowerment,</strong> <strong>resilience</strong>, and <strong>hope.</strong>
+                  The ICHAD Project was born out of a deep concern for the rising rates of drug abuse among young people; a crisis fueled by unemployment, lack of opportunities, and social pressures. What began as a mission to prevent substance abuse has grown into a movement of empowerment, resilience, and hope.
                 </p>
                 <p className="text-lg mb-6">
                   We believe that the best way to keep young people away from drugs is to equip them with the skills, support, and opportunities they need to thrive. Through mentorship, skills training, mental health support, and creative expression, we are transforming lives and communities; one young person at a time.
                 </p>
                 <p className="text-lg">
-                  Today, ICHAD is more than just an initiative; it's a lifeline. We stand as a guiding light, ensuring that every young person has the chance to rewrite their story, not with drugs, but with <strong>purpose,</strong> <strong>passion,</strong> and <strong>possibility.</strong>
+                  Today, ICHAD is more than just an initiative; it's a lifeline. We stand as a guiding light, ensuring that every young person has the chance to rewrite their story, not with drugs, but with purpose, passion, and possibility.
                 </p>
               </motion.div>
             </div>

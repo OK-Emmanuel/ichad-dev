@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-
+import template from '../assets/team/template.jpg';
 // Helper function to optimize images from Cloudinary (with face and perfect square crop)
 const getOptimizedImage = (url) => {
   if (!url.includes("cloudinary.com")) return url; // Just return if it's not from Cloudinary
@@ -42,7 +42,7 @@ const TeamSection = () => {
     {
       name: "Jemilat Yahaya",
       role: "Intern - ICHAD Youth Advisory Program Coordinator",
-      image: "/src/assets/team/template.jpg"
+      image: template
     }
   ];
 
@@ -76,7 +76,7 @@ const TeamSection = () => {
                   alt={member.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = "/src/assets/team/template.jpg";
+                    e.target.src = template;
                   }}
                 />
               </div>

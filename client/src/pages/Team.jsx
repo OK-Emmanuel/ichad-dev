@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import CallToAction from '../components/CallToAction';
+import template from '../assets/team/template.jpg';
+import teamBanner from '../assets/team-banner.jpg';
 
 // Helper function to optimize images from Cloudinary (with face and perfect square crop)
 const getOptimizedImage = (url) => {
@@ -35,7 +37,7 @@ const Team = () => {
     {
       name: "Success Iselen",
       role: "Social Media Manager",
-      image: "/src/assets/team/template.jpg"
+      image: template
     },
     {
       name: "Msen Nabo",
@@ -45,7 +47,7 @@ const Team = () => {
     {
       name: "Jemilat Yahaya",
       role: "Intern - ICHAD Youth Advisory Program Coordinator",
-      image: "/src/assets/team/template.jpg"
+      image: template
     }
   ];
 
@@ -63,7 +65,7 @@ const Team = () => {
     {
       name: "Mr. Gbenga Remi",
       role: "Member",
-      image: "/src/assets/team/template.jpg"
+      image: template
     },
     {
       name: "Mrs. Chidinma Kadiri",
@@ -94,7 +96,7 @@ const Team = () => {
                 alt={member.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src = "/src/assets/team/template.jpg";
+                  e.target.src = template;
                 }}
               />
             </div>
@@ -114,7 +116,7 @@ const Team = () => {
         {/* Banner Section */}
         <header className="h-[60vh] relative">
           <img
-            src="/src/assets/team-banner.jpg"
+            src={teamBanner}
             alt="Our Team"
             className="w-full h-full object-cover"
           />

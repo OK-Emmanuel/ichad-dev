@@ -55,7 +55,7 @@ const Impact = () => {
         {/* Banner Section */}
         <header className="h-[60vh] relative">
           <img
-            src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg"
+            src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg"
             alt="Our Impact"
             className="w-full h-full object-cover"
           />
@@ -119,7 +119,7 @@ const Impact = () => {
               </div>
               <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
                 <img 
-                  src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg" 
+                  src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg" 
                   alt="ICHAD Impact"
                   className="w-full h-full object-cover"
                 />
