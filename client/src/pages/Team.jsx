@@ -27,12 +27,12 @@ const Team = () => {
     {
       name: "Godsgift Ibe",
       role: "Partnership & Fundraising Officer",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744456059/godsgift_kmgjwt.jpg "
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474897/3_qrz4do.jpg"
     },
     {
       name: "Azeez Akinola Bada",
       role: "ICHAD Administrator",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414608/m3iylzjjzval5cwccngi_xyevcb.jpg"
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744476345/azeez_luuey2.jpg"
     },
     {
       name: "Success Iselen",
@@ -55,7 +55,7 @@ const Team = () => {
     {
       name: "Mr. Arthur Otoijamun",
       role: "Advisory Board Chair",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744457938/arthur_r1sa5n.jpg"
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744476196/arthur_pc9ueb.jpg"
     },
     {
       name: "Mrs. Fiona Wagbatsoma E",
@@ -65,7 +65,7 @@ const Team = () => {
     {
       name: "Mr. Gbenga Remi",
       role: "Member",
-      image: template
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474897/5_lxd1mq.jpg"
     },
     {
       name: "Mrs. Chidinma Kadiri",
@@ -75,7 +75,7 @@ const Team = () => {
     {
       name: "Ms. Racheal Ajibade",
       role: "Member",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414735/_MG_2915_1_v2j02g_rbpfys.jpg"
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744475889/rachael_osuimk.jpg"
     }
   ];
 

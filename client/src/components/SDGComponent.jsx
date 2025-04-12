@@ -50,9 +50,7 @@ const SDGComponent = () => {
                   </div>
                   <div className="text-white font-bold text-xl">SDG {sdg.number}</div>
                 </div>
-                <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold">
-                  {sdg.number}
-                </div>
+
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3">{sdg.title}</h3>

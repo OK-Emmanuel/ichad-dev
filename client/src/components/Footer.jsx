@@ -41,7 +41,7 @@ const Footer = () => {
                 <a className="text-gray-400 hover:text-white" href="/programs">Our Programs</a>
               </li>
               <li className="mb-2">
-                <a className="text-gray-400 hover:text-white" href="/get-involved">Get Involved</a>
+                <a className="text-gray-400 hover:text-white" href="/volunteer">Get Involved</a>
               </li>
               <li className="mb-2">
                 <a className="text-gray-400 hover:text-white" href="mailto:info@ichadproject.org">Contact Us</a>

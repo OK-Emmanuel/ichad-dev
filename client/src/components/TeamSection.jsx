@@ -17,17 +17,17 @@ const TeamSection = () => {
     {
       name: "Okey Davids",
       role: "Founder/ Community Director",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744415415/David-26_1_r0nn6o_ua3zqf.jpg"
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474896/4_vq98tg.jpg"
     },
     {
       name: "Godsgift Ibe",
       role: "Partnership & Fundraising Officer",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744456059/godsgift_kmgjwt.jpg"
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474897/3_qrz4do.jpg"
     },
     {
       name: "Azeez Akinola Bada",
       role: "ICHAD Administrator",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414608/m3iylzjjzval5cwccngi_xyevcb.jpg"
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744476345/azeez_luuey2.jpg"
     },
     {
       name: "Success Iselen",
