@@ -34,7 +34,7 @@ const Testimonials = () => {
     {
       name: "Efemena Efiafia",
       role: "Google Review",
-      image: "googleUser",
+      image: googleUser,
       quote: "The Navigate Cohort was a new experience for me. I relearned a lof of things and topics that I thought I was knowledgeable about. I met new people, some of whom are on their way to becoming close friends. I learned the importance of networking, consistency and above all building and maintaining one's self identity.",
       rating: 5,
       source: "google"
