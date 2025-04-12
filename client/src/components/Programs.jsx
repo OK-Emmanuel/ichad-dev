@@ -5,12 +5,11 @@ import EmptyState from './EmptyState';
 import LoadingSpinner from './LoadingSpinner';
 
 const Programs = () => {
-  const [apiPrograms, setApiPrograms] = useState([]);
+  // const [apiPrograms, setApiPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  // Hardcoded programs - commented out but kept for reference
-  /*
+  // Hardcoded programs - uncommented to use temporarily
   const hardcodedPrograms = [
     {
       title: "NAVIGATE",
@@ -20,13 +19,13 @@ const Programs = () => {
     },
     {
       title: "Project Enable",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263098/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv.jpg",
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413831/FRONT_2_gov7f8_jlhk1s.jpg",
       description: "Designed to provide young adults with employable skills in an environment that prepares them both mentally and physically to make a living from their chosen career path through the ICHAD School Of Skills (I-SOS).",
       link: "/programs/enable"
     },
     {
       title: "ICHAD Internship Program",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263299/IMG_0919_kxrf4x.jpg",
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744415472/IMG_0919_kxrf4x_s8tdpd.jpg",
       description: "An initiative that provides young people with hands-on leadership experience in social impact and mental health advocacy. Interns oversee youth-centered programs, develop initiatives, and contribute to expanding ICHAD's reach.",
       link: "/programs/internship"
     },
@@ -38,20 +37,20 @@ const Programs = () => {
     },
     {
       title: "School Drug Sensitization",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263541/FRONT_2_gov7f8.jpg",
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg",
       description: "An initiative that creates awareness and educates students in secondary schools on the dangers of drug abuse and strategies to prevent initiation.",
       link: "/programs/school-program"
     },
     {
       title: "Xpression by ICHAD",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263622/IMG_0966_mzzzbf.jpg",
+      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414609/hn6gjzlf4tghhx6lapqm_wjbs7r.jpg",
       description: "A creative empowerment program that allows young people to express themselves through drama, dance, art, and other forms of creativity. This platform provides a healthy outlet for emotions while promoting mental well-being.",
       link: "/programs/xpression"
     }
   ];
-  */
 
-  // Fetch programs from API
+  // Comment out the API fetch for now
+  /*
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
@@ -71,17 +70,18 @@ const Programs = () => {
     // Fetch programs from the backend
     fetchPrograms();
   }, []);
+  */
 
-  if (loading) {
-    return (
-      <div className="flex justify-center py-8">
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center py-8">
+  //       <LoadingSpinner />
+  //     </div>
+  //   );
+  // }
 
   // Show empty state when no programs are available
-  if (error || apiPrograms.length === 0) {
+  if (error || hardcodedPrograms.length === 0) {
     return (
       <EmptyState
         title="No Programs Available"
@@ -106,15 +106,15 @@ const Programs = () => {
 
         {/* Programs Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {apiPrograms.map((program, index) => (
+          {hardcodedPrograms.map((program, index) => (
             <div 
-              key={program._id || index}
+              key={index}
               className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image Container */}
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={program.coverImage || 'https://via.placeholder.com/400x300?text=Program+Image'}
+                  src={program.image}
                   alt={program.title}
                   className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
                 />
@@ -126,15 +126,15 @@ const Programs = () => {
                   {program.title}
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  {program.summary || program.description}
+                  {program.description}
                 </p>
-                <Link
-                  to={`/programs/${program.slug}`}
+                {/* <Link
+                  to={program.link}
                   className="inline-block px-6 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors duration-300"
                 >
                   Learn More
                   <span className="ml-2">→</span>
-                </Link>
+                </Link> */}
               </div>
             </div>
           ))}

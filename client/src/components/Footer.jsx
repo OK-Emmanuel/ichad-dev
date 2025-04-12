@@ -44,11 +44,11 @@ const Footer = () => {
                 <a className="text-gray-400 hover:text-white" href="/get-involved">Get Involved</a>
               </li>
               <li className="mb-2">
-                <a className="text-gray-400 hover:text-white" href="/contact">Contact Us</a>
+                <a className="text-gray-400 hover:text-white" href="mailto:info@ichadproject.org">Contact Us</a>
               </li>
-              <li className="mb-2">
+              {/* <li className="mb-2">
                 <a className="text-gray-400 hover:text-white" href="/privacy">Privacy Policy</a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -90,7 +90,7 @@ const Footer = () => {
           </p>
           <p className="text-gray-400">
             © {new Date().getFullYear()} ICHAD Project. All Rights Reserved. <br />
-            Designed by Techifice
+            Designed by <a href="https://techifice.com" className="text-white hover:text-gray-300">Techifice</a>
           </p>
         </div>
       </div>

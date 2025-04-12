@@ -10,7 +10,7 @@ const CallToAction = () => {
     if (type === 'donate') {
       window.open('https://your-donation-link.com', '_blank');
     } else if (type === 'volunteer') {
-      window.open('https://your-volunteer-link.com', '_blank');
+      window.open('/volunteer', '_blank');
     }
   };
 

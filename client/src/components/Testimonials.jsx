@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import googleUser from '../assets/testimonials/google-user.png'
 
 const Testimonials = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,7 +18,7 @@ const Testimonials = () => {
     {
       name: "Abass Afolayan",
       role: "Google Review",
-      image: "/src/assets/testimonials/google-user.png",
+      image: {googleUser},
       quote: "Participating in the Navigate Cohort Online Programme has been an incredibly enriching experience. From the moment I joined, I was welcomed into the Innovators Tribe, a community of driven, passionate, and like-minded individuals eager to learn and grow together. The program has not only helped me develop key skills but also introduced me to a new world of opportunities and self-discovery...",
       rating: 5,
       source: "google"
@@ -25,7 +26,7 @@ const Testimonials = () => {
     {
       name: "Marvelous Ifebube",
       role: "Google Review",
-      image: "/src/assets/testimonials/google-user.png",
+      image: googleUser,
       quote: "Joining the ICHAD Project, navigate 3.0 cohort was one of the best opportunities I'll ever appreciate. It was an amazing experience in the program, sensitive topics were treated, those that are barely talked about in the society.",
       rating: 5,
       source: "google"
@@ -33,7 +34,7 @@ const Testimonials = () => {
     {
       name: "Efemena Efiafia",
       role: "Google Review",
-      image: "/src/assets/testimonials/google-user.png",
+      image: "googleUser",
       quote: "The Navigate Cohort was a new experience for me. I relearned a lof of things and topics that I thought I was knowledgeable about. I met new people, some of whom are on their way to becoming close friends. I learned the importance of networking, consistency and above all building and maintaining one's self identity.",
       rating: 5,
       source: "google"
@@ -41,7 +42,7 @@ const Testimonials = () => {
     {
       name: "Makena Sylvia",
       role: "Google Review",
-      image: "/src/assets/testimonials/google-user.png",
+      image: googleUser,
       quote: "Wow! What a ride! The ICHAD Navigate Program was nothing short of enlightening, educative, and absolutely fun! One of my favorite parts? The catch-up sessions! These were more than just discussions—they were a safe space to ask anything about life, share what’s been happening, and truly unwind. It felt like a big, supportive family where no topic was off-limits.",
       rating: 5,
       source: "google"
@@ -49,7 +50,7 @@ const Testimonials = () => {
     {
       name: "Florence Oludipe",
       role: "Google Review",
-      image: "/src/assets/testimonials/google-user.png",
+      image: googleUser,
       quote: "Navigate 3.0 has been interesting so far, power, value and knowledge packed. During the orientation when we were informed about the drills, I already had the mindset that I wouldn't be able to keep up. But then I had this positive mind telling me okay you can do this. Glory be to God it's been wonderful so far.",
       rating: 5,
       source: "google"
@@ -97,7 +98,7 @@ const Testimonials = () => {
                           alt={testimonial.name}
                           className="w-full h-full object-cover"
                           onError={(e) => {
-                            e.target.src = "https://via.placeholder.com/150?text=Reviewer";
+                            e.target.src = "googleUser";
                           }}
                         />
                       </div>
