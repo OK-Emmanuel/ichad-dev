@@ -7,18 +7,18 @@ const Testimonials = () => {
   // Manually added testimonials including Google reviews
   const testimonials = [
     // Program testimonials
-    {
-      name: "Sarah Johnson",
-      role: "NAVIGATE Program Graduate",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263930/_MG_2915_1_v2j02g.jpg",
-      quote: "The NAVIGATE program completely changed my perspective on life. The mentorship and support I received helped me develop the confidence to pursue my dreams drug-free.",
-      source: "program"
-    },
+    // {
+    //   name: "Sarah Johnson",
+    //   role: "NAVIGATE Program Graduate",
+    //   image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1743263930/_MG_2915_1_v2j02g.jpg",
+    //   quote: "The NAVIGATE program completely changed my perspective on life. The mentorship and support I received helped me develop the confidence to pursue my dreams drug-free.",
+    //   source: "program"
+    // },
     // Google reviews (manually copied from your Google reviews page)
     {
       name: "Abass Afolayan",
       role: "Google Review",
-      image: {googleUser},
+      image: googleUser,
       quote: "Participating in the Navigate Cohort Online Programme has been an incredibly enriching experience. From the moment I joined, I was welcomed into the Innovators Tribe, a community of driven, passionate, and like-minded individuals eager to learn and grow together. The program has not only helped me develop key skills but also introduced me to a new world of opportunities and self-discovery...",
       rating: 5,
       source: "google"
