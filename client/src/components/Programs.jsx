@@ -4,6 +4,8 @@ import { programs as programsApi } from '../services/api';
 import EmptyState from './EmptyState';
 import LoadingSpinner from './LoadingSpinner';
 import navigate3 from '../assets/navigate3.jpeg';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
+
 
 const Programs = () => {
   // const [apiPrograms, setApiPrograms] = useState([]);
@@ -20,31 +22,31 @@ const Programs = () => {
     },
     {
       title: "Project Enable",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413831/FRONT_2_gov7f8_jlhk1s.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413831/FRONT_2_gov7f8_jlhk1s.jpg"),
       description: "Designed to provide young adults with employable skills in an environment that prepares them both mentally and physically to make a living from their chosen career path through the ICHAD School Of Skills (I-SOS).",
       link: "/programs/enable"
     },
     {
       title: "ICHAD Internship Program",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744415472/IMG_0919_kxrf4x_s8tdpd.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744415472/IMG_0919_kxrf4x_s8tdpd.jpg"),
       description: "An initiative that provides young people with hands-on leadership experience in social impact and mental health advocacy. Interns oversee youth-centered programs, develop initiatives, and contribute to expanding ICHAD's reach.",
       link: "/programs/internship"
     },
     {
       title: "Drug Prevention Champions",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413831/FRONT_2_gov7f8_jlhk1s.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413831/FRONT_2_gov7f8_jlhk1s.jpg"),
       description: "A program designed specifically for students in tertiary institutions, aimed at equipping them with the knowledge, skills, and leadership capabilities to become effective drug prevention ambassadors within their campuses and beyond.",
       link: "/programs/champions"
     },
     {
       title: "School Drug Sensitization",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg"),
       description: "An initiative that creates awareness and educates students in secondary schools on the dangers of drug abuse and strategies to prevent initiation.",
       link: "/programs/school-program"
     },
     {
       title: "Xpression by ICHAD",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414609/hn6gjzlf4tghhx6lapqm_wjbs7r.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414609/hn6gjzlf4tghhx6lapqm_wjbs7r.jpg"),
       description: "A creative empowerment program that allows young people to express themselves through drama, dance, art, and other forms of creativity. This platform provides a healthy outlet for emotions while promoting mental well-being.",
       link: "/programs/xpression"
     }
@@ -96,11 +98,11 @@ const Programs = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold border-l-4 border-primary pl-4 mb-4">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold border-l-4 border-primary pl-4 mb-4 inline-block">
             OUR PROGRAMS
           </h2>
-          <p className="text-gray-600 max-w-3xl">
+          <p className="text-gray-600 max-w-3xl mx-auto">
             Comprehensive initiatives designed to empower youth and prevent substance abuse through education, mentorship, and community engagement.
           </p>
         </div>

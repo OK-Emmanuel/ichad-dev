@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const HubsComponent = () => {
   const hubs = [
@@ -6,28 +7,28 @@ const HubsComponent = () => {
       name: "Unilag",
       location: "University of Lagos",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/UNILAG_ygfauk.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/UNILAG_ygfauk.jpg"),
       programs: ["NAVIGATE Program", "Drug Prevention Champions"]
     },
     {
       name: "OAU",
       location: "Obafemi Awolowo University",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/OAU_jygcqt.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/OAU_jygcqt.jpg"),
       programs: ["NAVIGATE Program", "School Sensitization"]
     },
     {
       name: "Yabatech",
       location: "Yaba College of Technology",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/YABATECH_bc2owc.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/YABATECH_bc2owc.jpg"),
       programs: ["Skills Development", "Mental Health Support"]
     },
     {
       name: "ICHAD Portharcourt",
       location: "Port Harcourt, Rivers State",
       email: "info@ichadproject.org",
-      image: "https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/PORTHARCOURT_jf5iao.jpg",
+      image: optimizeImageUrl("https://res.cloudinary.com/djvolnu9s/image/upload/v1744101045/ICHAD/Hubs/PORTHARCOURT_jf5iao.jpg"),
       programs: ["Community Outreach", "Youth Advocacy"]
     }
   ];
@@ -53,7 +54,7 @@ const HubsComponent = () => {
                   alt={hub.name}
                   className="w-full h-full object-cover transform hover:scale-105 transition-all duration-500"
                   onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/400x300?text=ICHAD+Hub";
+                    e.target.src = "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744457517/team_template_gfahah.jpg ";
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />

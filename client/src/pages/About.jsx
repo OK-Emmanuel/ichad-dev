@@ -8,6 +8,7 @@ import TeamSection from '../components/TeamSection';
 import SDGComponent from '../components/SDGComponent';
 import ValuesComponent from '../components/ValuesComponent';
 import HubsComponent from '../components/HubsComponent';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const About = () => {
  
@@ -56,7 +57,7 @@ const About = () => {
         {/* Hero Section */}
         <header className="relative h-[80vh]">
           <img
-            src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg"
+            src={optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg", 720, 600)}
             alt="About ICHAD"
             className="w-full h-full object-cover"
           />
@@ -111,7 +112,7 @@ const About = () => {
               >
                 <div className="absolute inset-0 bg-primary/10 rounded-full transform -rotate-6" />
                 <img
-                  src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg"
+                  src={optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg")}
                   alt="About ICHAD"
                   className="relative rounded-lg shadow-xl"
                 />

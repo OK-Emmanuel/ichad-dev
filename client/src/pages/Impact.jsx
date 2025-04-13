@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import CallToAction from '../components/CallToAction';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const Impact = () => {
   const stats = [
@@ -119,7 +120,7 @@ const Impact = () => {
               </div>
               <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
                 <img 
-                  src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg" 
+                  src={optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg", 520, 400)} 
                   alt="ICHAD Impact"
                   className="w-full h-full object-cover"
                 />
@@ -129,7 +130,7 @@ const Impact = () => {
         </section>
 
         {/* Case Studies Section */}
-        <section className="py-16 bg-gray-50">
+        {/* <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">Success Stories</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -145,18 +146,18 @@ const Impact = () => {
                     <p className="text-white/90 mb-4">
                       {study.description}
                     </p>
-                    {/* <a 
+                    <a 
                       href={study.link}
                       className="inline-block bg-white text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors"
                     >
                       Read More
-                    </a> */}
+                    </a>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Contact CTA Section - Similar to Urbond's */}
         {/* <section className="bg-black text-white py-12">

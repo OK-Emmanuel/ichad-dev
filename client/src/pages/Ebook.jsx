@@ -5,6 +5,7 @@ import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CallToAction from '../components/CallToAction';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const Ebook = () => {
   return (
@@ -12,18 +13,18 @@ const Ebook = () => {
       <TopBar />
       <Navbar />
       <main className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4  flex flex-col md:flex-row items-center">
+        <div className="container mx-auto px-4  my-10 flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 mb-8 mr-10 md:mb-0">
             <Carousel showThumbs={false} infiniteLoop useKeyboardArrows autoPlay>
               <div>
-                <img src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743754580/1_crcgtv.png" alt="Navigating Adolescence 1" />
+                <img src={optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413799/1_crcgtv_q1rtai.png", 1080, 1080)} alt="Navigating Adolescence 1" />
               </div>
               <div>
-                <img src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743754602/2_rs7ekl.png" alt="Navigating Adolescence 2" />
+                <img src={optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413806/2_rs7ekl_xzfrk3.png", 1080, 1080)} alt="Navigating Adolescence 2" />
               </div>
-              {/* <div>
-                <img src="https://res.cloudinary.com/djvolnu9s/image/upload/v1743754580/3_crcgtv.png" alt="Navigating Adolescence 3" />
-              </div> */}
+              <div>
+                <img src={optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744415528/az1firw0y4tf2fyyslia_fu59ml.jpg", 1080, 1080)} alt="Navigating Adolescence 3" />
+              </div>
             </Carousel>
           </div>
           <div className="w-full md:w-1/2 text-center md:text-left">

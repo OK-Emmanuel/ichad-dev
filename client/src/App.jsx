@@ -10,6 +10,7 @@ import Events from './pages/Events';
 import Gallery from './pages/Gallery';
 import Login from './pages/Login';
 import Dashboard from './pages/admin/Dashboard';
+import Volunteer from './pages/Volunteer';
 import { AuthProvider } from './context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -58,6 +59,7 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/login" element={<Login />} />
             <Route path="/ebook" element={<Ebook />} />
+            <Route path="/volunteer" element={<Volunteer />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={
