@@ -9,7 +9,6 @@ import 'react-phone-number-input/style.css';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import { useConfetti } from '../contexts/ConfettiContext';
-import ConfettiEffect from '../components/ConfettiEffect';
 
 const CustomPhoneInput = ({ value, onChange }) => (
     <PhoneInput
@@ -119,7 +118,7 @@ const Volunteer = () => {
       <TopBar />
       <Navbar />
       <main className="min-h-screen bg-gray-50">
-        <ConfettiEffect />
+        {/* <ConfettiEffect /> */}
         {/* Banner Section */}
         <header className="h-[60vh] relative">
           <img

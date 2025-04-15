@@ -37,18 +37,18 @@ const Footer = () => {
               <li className="mb-2">
                 <a className="text-gray-400 hover:text-white" href="/about">About Us</a>
               </li>
-              <li className="mb-2">
+              {/* <li className="mb-2">
                 <a className="text-gray-400 hover:text-white" href="/programs">Our Programs</a>
-              </li>
+              </li> */}
               <li className="mb-2">
                 <a className="text-gray-400 hover:text-white" href="/volunteer">Get Involved</a>
               </li>
               <li className="mb-2">
+                <a className="text-gray-400 hover:text-white" href="https://paystack.com/pay/ichad-donation">Donate</a>
+              </li>
+              <li className="mb-2">
                 <a className="text-gray-400 hover:text-white" href="mailto:info@ichadproject.org">Contact Us</a>
               </li>
-              {/* <li className="mb-2">
-                <a className="text-gray-400 hover:text-white" href="/privacy">Privacy Policy</a>
-              </li> */}
             </ul>
           </div>
 

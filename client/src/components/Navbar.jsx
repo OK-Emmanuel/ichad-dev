@@ -24,10 +24,12 @@ const Navbar = () => {
     { name: 'About Us', path: '/about' },
     { name: 'What We Do', path: '/what-we-do' },
     { name: 'Our Impact', path: '/impact' },
-    { name: 'News', path: '/news' },
-    { name: 'Events', path: '/events' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Ebook', path: '/ebook' }
+    // { name: 'News', path: '/news' },
+    { name: 'Ebook', path: '/ebook' },
+    { name: 'Volunteer', path: '/volunteer' },
+    { name: 'Donate', path: 'https://paystack.com/pay/ichad-donation' }
+    // { name: 'Events', path: '/events' },
+    // { name: 'Gallery', path: '/gallery' }
   ];
 
   return (

@@ -1,14 +1,12 @@
 import { useConfetti } from '../contexts/ConfettiContext';
 
 const CallToAction = () => {
-  const { triggerConfetti } = useConfetti();
+  // const { triggerConfetti } = useConfetti();
 
   const handleButtonClick = (type) => {
-    triggerConfetti();
-    
-    // You can add additional logic based on which button was clicked
+  
     if (type === 'donate') {
-      window.open('https://your-donation-link.com', '_blank');
+      window.open('https://paystack.com/pay/ichad-donation', '_blank');
     } else if (type === 'volunteer') {
       window.open('/volunteer', '_blank');
     }

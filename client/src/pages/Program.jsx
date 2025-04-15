@@ -4,7 +4,7 @@ import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
-import { programs } from '../services/api';
+// import { programs } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const Program = () => {
