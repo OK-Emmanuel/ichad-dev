@@ -1,110 +1,105 @@
+import { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import CallToAction from '../components/CallToAction';
+import LoadingSpinner from '../components/LoadingSpinner';
+import EmptyState from '../components/EmptyState';
+import TeamMemberCard from '../components/TeamMemberCard';
 import template from '../assets/team/template.jpg';
 import teamBanner from '../assets/team-banner.jpg';
 
-// Helper function to optimize images from Cloudinary (with face and perfect square crop)
-const getOptimizedImage = (url) => {
-  if (!url.includes("cloudinary.com")) return url; // Just return if it's not from Cloudinary
-
-  const parts = url.split("/upload/");
-  if (parts.length !== 2) return url; // Handle if the URL doesn't follow expected format
-
-  // Adjust the URL to make sure it's always square and the face is centered
-  return `${parts[0]}/upload/w_400,h_400,c_fill,g_face,r_max/${parts[1]}`;
+// Helper function to construct image URL (similar to TeamSection)
+const getImageUrl = (imageData, fallback) => {
+  const url = imageData?.url || null;
+  // Construct the full URL if it's relative
+  const fullUrl = url && !url.startsWith('http') ? `http://localhost:1337${url}` : url;
+  return fullUrl || fallback;
 };
 
 const Team = () => {
-  const executiveTeam = [
-    {
-      name: "Okey Davids",
-      role: "Founder/ Community Director",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744415415/David-26_1_r0nn6o_ua3zqf.jpg"
-    },
-    {
-      name: "Godsgift Ibe",
-      role: "Partnership & Fundraising Officer",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474897/3_qrz4do.jpg"
-    },
-    {
-      name: "Azeez Akinola Bada",
-      role: "ICHAD Administrator",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744476345/azeez_luuey2.jpg"
-    },
-    {
-      name: "Success Iselen",
-      role: "Social Media Manager",
-      image: template
-    },
-    {
-      name: "Msen Nabo",
-      role: "ICHAD Youth Ambassador",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744456335/Msen_gibjfj.jpg"
-    },
-    {
-      name: "Jemilat Yahaya",
-      role: "Intern - ICHAD Youth Advisory Program Coordinator",
-      image: template
-    }
-  ];
+  const [executiveTeam, setExecutiveTeam] = useState([]);
+  const [advisoryBoard, setAdvisoryBoard] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  const advisoryBoard = [
-    {
-      name: "Mr. Arthur Otoijamun",
-      role: "Advisory Board Chair",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744476196/arthur_pc9ueb.jpg"
-    },
-    {
-      name: "Mrs. Fiona Wagbatsoma E",
-      role: "Member",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414023/jfhl7502exntzkct6gsr_fd0pto.jpg"
-    },
-    {
-      name: "Mr. Gbenga Remi",
-      role: "Member",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474897/5_lxd1mq.jpg"
-    },
-    {
-      name: "Mrs. Chidinma Kadiri",
-      role: "Member",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413801/ehubby1vd2dzr3sylwwg_si0zfy.jpg"
-    },
-    {
-      name: "Ms. Racheal Ajibade",
-      role: "Member",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744475889/rachael_osuimk.jpg"
-    }
-  ];
+  useEffect(() => {
+    const fetchAllTeams = async () => {
+      setLoading(true);
+      setError(false);
+      try {
+        const execUrl = process.env.NODE_ENV === 'production' 
+          ? '/api/team-members?populate=headshot' 
+          : 'http://localhost:1337/api/team-members?populate=headshot';
+        
+        const advisoryUrl = process.env.NODE_ENV === 'production' 
+          ? '/api/advisory-boards?populate=image' 
+          : 'http://localhost:1337/api/advisory-boards?populate=image';
 
-  const TeamSection = ({ title, members }) => (
+        const [execResponse, advisoryResponse] = await Promise.all([
+          fetch(execUrl),
+          fetch(advisoryUrl)
+        ]);
+
+        if (!execResponse.ok || !advisoryResponse.ok) {
+          console.error("Error fetching one or both team lists:", execResponse.status, advisoryResponse.status);
+          throw new Error('Failed to fetch team data');
+        }
+
+        const execData = await execResponse.json();
+        const advisoryData = await advisoryResponse.json();
+
+        // Process Executive Team
+        const fetchedExec = execData.data.map(member => ({
+          id: member.id,
+          name: member.name || '',
+          role: member.role || '',
+          image: getImageUrl(member.headshot, template), // Use headshot field
+          linkedin: member.linkedin || '#',
+          facebook: member.facebook || '#'
+        }));
+        setExecutiveTeam(fetchedExec);
+
+        // Process Advisory Board
+        const fetchedAdvisory = advisoryData.data.map(member => ({
+          id: member.id,
+          name: member.name || '',
+          role: member.role || '',
+          image: getImageUrl(member.image, template), // Use image field
+          linkedin: member.linkedin || '#',
+          facebook: member.facebook || '#'
+        }));
+        setAdvisoryBoard(fetchedAdvisory);
+
+      } catch (err) {
+        console.error("Error fetching team data:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllTeams();
+  }, []);
+
+  // Presentational component for a section (minor refactor)
+  const TeamSectionDisplay = ({ title, members }) => (
     <div className="mb-20">
       <div className="w-full mb-12 text-center">
         <h2 className="text-3xl font-bold uppercase border-l-4 border-primary pl-4 inline-block">
           {title}
         </h2>
       </div>
-
-      <div className="grid md:grid-cols-3 gap-12 justify-center">
-        {members.map((member, index) => (
-          <div key={index} className="flex flex-col items-center justify-center">
-            <div className="relative w-56 h-56 mb-4 overflow-hidden rounded-full shadow-lg">
-              <img
-                src={getOptimizedImage(member.image)} // Optimized image URL with square and face-centered crop
-                alt={member.name}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = template;
-                }}
-              />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-1">{member.name}</h3>
-            <p className="text-gray-600 text-sm">{member.role}</p>
-          </div>
-        ))}
-      </div>
+      {members && members.length > 0 ? (
+        <div className="grid md:grid-cols-3 gap-12 justify-center">
+          {members.map((member, index) => (
+            <TeamMemberCard key={member.id} {...member} index={index} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-gray-600">Information for this section is not yet available.</p>
+      )}
     </div>
   );
 
@@ -128,11 +123,17 @@ const Team = () => {
           </div>
         </header>
 
-        {/* Team Content */}
+        {/* Team Content - Fetched Data */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4 max-w-[1300px]">
-            <TeamSection title="Executive Team" members={executiveTeam} />
-            <TeamSection title="Advisory Board" members={advisoryBoard} />
+            {loading && <div className="text-center"><LoadingSpinner /></div>}
+            {error && <EmptyState title="Error Loading Team" message="Could not fetch team data. Please try again later." />}
+            {!loading && !error && (
+              <>
+                <TeamSectionDisplay title="Executive Team" members={executiveTeam} />
+                <TeamSectionDisplay title="Advisory Board" members={advisoryBoard} />
+              </>
+            )}
           </div>
         </section>
 

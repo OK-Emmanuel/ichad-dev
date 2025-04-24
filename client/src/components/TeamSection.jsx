@@ -1,50 +1,92 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import LoadingSpinner from './LoadingSpinner';
+import EmptyState from './EmptyState';
+import TeamMemberCard from './TeamMemberCard';
 import template from '../assets/team/template.jpg';
-// Helper function to optimize images from Cloudinary (with face and perfect square crop)
-const getOptimizedImage = (url) => {
-  if (!url.includes("cloudinary.com")) return url; // Just return if it's not from Cloudinary
 
-  const parts = url.split("/upload/");
-  if (parts.length !== 2) return url; // Handle if the URL doesn't follow expected format
-
-  // Adjust the URL to make sure it's always square and the face is centered
-  return `${parts[0]}/upload/w_400,h_400,c_fill,g_face,r_max/${parts[1]}`;
+// Simplified image helper or can be removed if Strapi URL is absolute
+const getImageUrl = (imageData, fallback) => {
+  const url = imageData?.url || null;
+  // Construct the full URL if it's relative (assuming Strapi returns relative /uploads/...)
+  const fullUrl = url && !url.startsWith('http') ? `http://localhost:1337${url}` : url;
+  return fullUrl || fallback;
 };
 
 const TeamSection = () => {
-  // Organized by hierarchy based on roles
-  const team = [
-    {
-      name: "Okey Davids",
-      role: "Founder/ Community Director",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474896/4_vq98tg.jpg"
-    },
-    {
-      name: "Godsgift Ibe",
-      role: "Partnership & Fundraising Officer",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744474897/3_qrz4do.jpg"
-    },
-    {
-      name: "Azeez Akinola Bada",
-      role: "ICHAD Administrator",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744476345/azeez_luuey2.jpg"
-    },
-    {
-      name: "Success Iselen",
-      role: "Social Media Manager",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744457517/team_template_gfahah.jpg"
-    },
-    {
-      name: "Msen Nabo",
-      role: "ICHAD Youth Ambassador",
-      image: "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744456335/Msen_gibjfj.jpg"
-    },
-    {
-      name: "Jemilat Yahaya",
-      role: "Intern - ICHAD Youth Advisory Program Coordinator",
-      image: template
-    }
-  ];
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+        const strapiUrl = process.env.NODE_ENV === 'production' 
+          ? '/api/team-members?populate=headshot' 
+          : 'http://localhost:1337/api/team-members?populate=headshot';
+
+        const response = await fetch(strapiUrl);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Limit the number of team members displayed, e.g., to 6
+        const limitedData = data.data.slice(0, 6); 
+
+        const fetchedMembers = limitedData.map(member => ({
+          id: member.id,
+          name: member.name || '',
+          role: member.role || '',
+          image: getImageUrl(member.headshot, template),
+          linkedin: member.linkedin || '#',
+          facebook: member.facebook || '#'
+        }));
+
+        setTeamMembers(fetchedMembers);
+
+      } catch (err) {
+        console.error("Error fetching team members:", err);
+        setError(true);
+        setTeamMembers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeam();
+  }, []);
+
+  // Loading State
+  if (loading) {
+    return (
+      <section className="bg-gray-100 py-16">
+        <div className="container mx-auto px-4 text-center">
+          <LoadingSpinner />
+        </div>
+      </section>
+    );
+  }
+
+  // Error State
+  if (error) {
+    return (
+      <section className="bg-gray-100 py-16">
+        <div className="container mx-auto px-4">
+          <EmptyState title="Error Loading Team" message="Could not fetch team members. Please try again later." />
+        </div>
+      </section>
+    );
+  }
+
+  // Empty State
+  if (!loading && teamMembers.length === 0) {
+      return null;
+  }
 
   return (
     <section className="bg-gray-100 py-16">
@@ -59,30 +101,10 @@ const TeamSection = () => {
           </p>
         </div>
 
-        {/* Team Members Grid */}
+        {/* Team Members Grid - Use TeamMemberCard */}
         <div className="grid md:grid-cols-3 gap-12 justify-center">
-          {team.map((member, index) => (
-            <motion.div 
-              key={index} 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center justify-center"
-            >
-              <div className="relative w-56 h-56 mb-4 overflow-hidden rounded-full shadow-lg">
-                <img
-                  src={getOptimizedImage(member.image)} // Optimized image URL with square and face-centered crop
-                  alt={member.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = template;
-                  }}
-                />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-1">{member.name}</h3>
-              <p className="text-gray-600 text-sm">{member.role}</p>
-            </motion.div>
+          {teamMembers.map((member, index) => (
+            <TeamMemberCard key={member.id} {...member} index={index} />
           ))}
         </div>
 

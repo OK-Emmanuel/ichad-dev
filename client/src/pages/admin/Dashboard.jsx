@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import AdminLayout from '../../components/admin/AdminLayout';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { LineChart, BarChart } from '../../components/charts';
-import { posts, events, gallery, programs } from '../../services/api';
+// import { posts, events, gallery, programs } from '../../services/api';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);

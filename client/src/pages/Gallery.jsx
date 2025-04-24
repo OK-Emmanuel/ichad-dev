@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import EmptyState from '../components/EmptyState';
-import { gallery as galleryApi } from '../services/api';
+// import { gallery as galleryApi } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const Gallery = () => {

@@ -1,48 +1,46 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import LoadingSpinner from '../components/LoadingSpinner';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-const Events = () => {
-  const [events, setEvents] = useState([]);
+const Posts = () => {
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchEvents();
+    fetchPosts();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchPosts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:1337/api/events?populate=*');
+      const response = await axios.get('http://localhost:1337/api/posts?populate=*');
       
-      console.log('Strapi Events Response:', JSON.stringify(response.data, null, 2));
+      console.log('Strapi Posts Response:', JSON.stringify(response.data, null, 2));
       
       // Process the data based on the actual response structure
-      const processedEvents = response.data.data.map(event => {
-        console.log('Processing event:', JSON.stringify(event, null, 2));
+      const processedPosts = response.data.data.map(post => {
+        console.log('Processing post:', JSON.stringify(post, null, 2));
         return {
-          id: event.id,
-          title: event.title,
-          summary: event.summary,
-          description: event.description,
-          startDate: event.startDate,
-          endDate: event.endDate,
-          location: event.location,
-          coverImage: event.coverImage,
-          slug: event.slug
+          id: post.id,
+          title: post.title,
+          summary: post.summary,
+          content: post.content,
+          slug: post.slug,
+          coverImage: post.coverImage,
+          publishedAt: post.publishedAt
         };
       });
       
-      setEvents(processedEvents);
+      setPosts(processedPosts);
     } catch (error) {
-      console.error('Error fetching events:', error);
-      setError('Failed to load events. Please try again later.');
+      console.error('Error fetching posts:', error);
+      setError('Failed to load posts. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -81,10 +79,10 @@ const Events = () => {
         <div className="container relative mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Upcoming Events
+              News & Updates
             </h1>
             <p className="text-lg text-white/80">
-              Join us at our upcoming events and make a difference
+              Stay informed about our latest news and announcements
             </p>
           </div>
         </div>
@@ -93,23 +91,23 @@ const Events = () => {
       {/* Content Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          {events.length === 0 ? (
-            <div className="text-center text-gray-500">No events found.</div>
+          {posts.length === 0 ? (
+            <div className="text-center text-gray-500">No posts found.</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {events.map(event => (
-                <div key={event.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              {posts.map(post => (
+                <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                   {/* Image Container */}
                   <div className="relative h-48 overflow-hidden">
-                    {event.coverImage?.url ? (
+                    {post.coverImage?.url ? (
                       <img 
-                        src={event.coverImage.url} 
-                        alt={event.title}
+                        src={post.coverImage.url} 
+                        alt={post.title}
                         className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <i className="ri-calendar-event-line text-4xl text-gray-400"></i>
+                        <i className="ri-image-line text-4xl text-gray-400"></i>
                       </div>
                     )}
                   </div>
@@ -117,35 +115,19 @@ const Events = () => {
                   {/* Content */}
                   <div className="p-6">
                     <Link 
-                      to={`/events/${event.slug}`}
+                      to={`/posts/${post.slug}`}
                       className="text-xl font-bold mb-3 hover:text-primary transition-colors block"
                     >
-                      {event.title}
+                      {post.title}
                     </Link>
-                    
-                    {/* Event Details */}
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center text-gray-600">
-                        <i className="ri-calendar-line mr-2 text-primary"></i>
-                        <span>
-                          {new Date(event.startDate).toLocaleDateString()}
-                          {event.endDate && ` - ${new Date(event.endDate).toLocaleDateString()}`}
-                        </span>
-                      </div>
-                      
-                      {event.location && (
-                        <div className="flex items-center text-gray-600">
-                          <i className="ri-map-pin-line mr-2 text-primary"></i>
-                          <span>{event.location}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {event.summary && (
+                    {post.summary && (
                       <p className="text-gray-600 mb-4 line-clamp-2">
-                        {event.summary}
+                        {post.summary}
                       </p>
                     )}
+                    <div className="text-sm text-gray-500">
+                      {new Date(post.publishedAt).toLocaleDateString()}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -160,4 +142,4 @@ const Events = () => {
   );
 };
 
-export default Events; 
+export default Posts; 
