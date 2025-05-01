@@ -9,6 +9,7 @@ import SDGComponent from '../components/SDGComponent';
 import ValuesComponent from '../components/ValuesComponent';
 import HubsComponent from '../components/HubsComponent';
 import { optimizeImageUrl } from '../utils/imageOptimizer';
+import PageBanner from '../components/PageBanner';
 
 const About = () => {
  
@@ -55,30 +56,13 @@ const About = () => {
       <Navbar />
       <main className="overflow-hidden">
         {/* Hero Section */}
-        <header className="relative h-[80vh]">
-          <img
-            src={optimizeImageUrl("https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg", 720, 600)}
-            alt="About ICHAD"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/50 flex items-center">
-            <div className="container mx-auto px-4">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="max-w-3xl text-white"
-              >
-                <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                  Empowering Youth for a Better Tomorrow
-                </h1>
-                <p className="text-xl md:text-2xl opacity-90">
-                  Building resilient communities through youth development and drug abuse prevention
-                </p>
-              </motion.div>
-            </div>
-          </div>
-        </header>
+        <PageBanner 
+          page="about"
+          defaultImage="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744413943/FRONT_3_h0bonu_gwmzxa.jpg"
+          defaultTitle="Empowering Youth for a Better Tomorrow"
+          defaultSubtitle="Building resilient communities through youth development and drug abuse prevention"
+          className="h-[80vh]"
+        />
 
         {/* About Us Section */}
         <section className="py-16">

@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { FaLinkedin, FaFacebook } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa';
 import template from '../assets/team/template.jpg';
 
 // Reusable presentational component for a team member card
-const TeamMemberCard = ({ name, role, image, linkedin, facebook, index }) => {
+const TeamMemberCard = ({ name, role, image, bio, linkedin, index }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -26,34 +26,21 @@ const TeamMemberCard = ({ name, role, image, linkedin, facebook, index }) => {
       <h3 className="text-xl font-semibold text-gray-800 mb-1">{name}</h3>
       <p className="text-gray-600 text-sm mb-2">{role}</p>
       
-      {/* Show social icons if available */}
-      {(linkedin || facebook) && (
-        <div className="flex space-x-4 mt-1">
-          {linkedin && linkedin !== '#' && (
-            <a 
-              href={linkedin}
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:text-primary-dark transition-colors"
-              aria-label={`${name}'s LinkedIn Profile`}
-              onClick={(e) => e.stopPropagation()} // Prevent nested link issues
-            >
-              <FaLinkedin size={20} />
-            </a>
-          )}
-          
-          {facebook && facebook !== '#' && (
-            <a 
-              href={facebook}
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 transition-colors"
-              aria-label={`${name}'s Facebook Profile`}
-              onClick={(e) => e.stopPropagation()} // Prevent nested link issues
-            >
-              <FaFacebook size={20} />
-            </a>
-          )}
+      {/* {bio && <p className="text-gray-600 text-sm mb-3 max-w-sm">{bio.substring(0, 100)}{bio.length > 100 ? '...' : ''}</p>} */}
+      
+      {/* Show LinkedIn icon if available */}
+      {linkedin && linkedin !== '#' && (
+        <div className="mt-1">
+          <a 
+            href={linkedin}
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:text-primary-dark transition-colors"
+            aria-label={`${name}'s LinkedIn Profile`}
+            onClick={(e) => e.stopPropagation()} // Prevent nested link issues
+          >
+            <FaLinkedin size={20} />
+          </a>
         </div>
       )}
     </motion.div>

@@ -7,11 +7,10 @@ import TopBar from './TopBar';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import BackToTop from './BackToTop';
-import { optimizeImageUrl } from '../utils/imageOptimizer';
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import { hubService } from '../services/api';
 
 // Default fallback image
-const fallbackImage = "https://res.cloudinary.com/dzzavh0nq/image/upload/v1744457517/team_template_gfahah.jpg";
+const fallbackImage = "https://via.placeholder.com/400x300?text=Hub+Image";
 
 const HubDetail = () => {
   const { hubName } = useParams();
@@ -30,57 +29,30 @@ const HubDetail = () => {
           word.charAt(0).toUpperCase() + word.slice(1)
         ).join(' ');
         
-        // Fetch hub with populated related fields using filters
-        const strapiUrl = process.env.NODE_ENV === 'production'
-          ? `/api/hubs?filters[name][$eqi]=${originalName}`
-          : `http://localhost:1337/api/hubs?filters[name][$eqi]=${originalName}`;
-        
-        console.log("Fetching hub from:", strapiUrl);
-        
-        const response = await fetch(strapiUrl);
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          console.error("API Error Response:", errorData);
-          setNotFound(true);
-          setHub(null);
-          return;
-        }
-        
-        const data = await response.json();
-        console.log("Hub detail raw response:", data);
+        // Fetch hub with name
+        const data = await hubService.getHubByName(originalName);
         
         // Verify the data structure
-        if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
+        if (!data || !Array.isArray(data) || data.length === 0) {
           setNotFound(true);
           setHub(null);
           return;
         }
         
-        // Get the first hub from the filtered results
-        const hubData = data.data[0];
-        
-        // Handle image URL based on provider
-        let logoUrl = fallbackImage;
-        if (hubData.hubLogo) {
-          if (hubData.hubLogo.provider === '@strapi/provider-upload-cloudinary') {
-            logoUrl = hubData.hubLogo.url;
-          } else {
-            logoUrl = `http://localhost:1337${hubData.hubLogo.url}`;
-          }
-        }
+        // Get the first hub from the results
+        const hubData = data[0];
         
         // Process the hub data
         const processedHub = {
-          id: hubData.id,
+          _id: hubData._id,
           name: hubData.name,
           address: hubData.address || '',
           state: hubData.state || '',
           country: hubData.country || '',
           contactEmail: hubData.contactEmail || 'info@ichadproject.org',
           phone: hubData.phone || '',
-          description: hubData.description || [],
-          logoUrl: logoUrl
+          description: hubData.description || '',
+          logoUrl: hubData.hubLogo || fallbackImage
         };
         
         setHub(processedHub);
@@ -172,7 +144,7 @@ const HubDetail = () => {
                 {hub.logoUrl && (
                   <div className="mb-8 h-64 md:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
                     <img
-                      src={optimizeImageUrl(hub.logoUrl)}
+                      src={hub.logoUrl}
                       alt={hub.name}
                       className="w-full h-full object-cover"
                       onError={(e) => { e.target.src = fallbackImage; }}
@@ -216,7 +188,7 @@ const HubDetail = () => {
                 <div className="prose max-w-none">
                   <h2 className="text-2xl font-bold text-primary mb-6">About Our Hub</h2>
                   {hub.description && 
-                    <BlocksRenderer content={hub.description} />
+                    <div className="text-gray-700 whitespace-pre-line">{hub.description}</div>
                   }
                 </div>
               </div>

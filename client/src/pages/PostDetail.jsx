@@ -6,7 +6,8 @@ import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import { postService } from '../services/api';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const PostDetail = () => {
   const { postSlug } = useParams();
@@ -20,51 +21,22 @@ const PostDetail = () => {
       try {
         setLoading(true);
         
-        // Convert URL parameter back to original slug format
-        const originalSlug = postSlug.split('-').join(' ');
-        
-        // Fetch post with populated related fields
-        const strapiUrl = process.env.NODE_ENV === 'production'
-          ? `/api/posts?filters[slug][$eqi]=${originalSlug}&populate=*`
-          : `http://localhost:1337/api/posts?filters[slug][$eqi]=${originalSlug}&populate=*`;
-        
-        console.log("Fetching post from:", strapiUrl);
-        
-        const response = await fetch(strapiUrl);
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          console.error("API Error Response:", errorData);
-          setNotFound(true);
-          setPost(null);
-          return;
-        }
-        
-        const data = await response.json();
-        console.log("Post detail raw response:", data);
-        
-        // Verify the data structure
-        if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
-          setNotFound(true);
-          setPost(null);
-          return;
-        }
-        
-        // Get the first post from the filtered results
-        const postData = data.data[0];
+        const postData = await postService.getPostBySlug(postSlug);
         
         // Process the post data
-        const processedPost = {
-          id: postData.id,
-          title: postData.title,
-          content: postData.content,
-          summary: postData.summary,
-          coverImage: postData.coverImage,
-          publishedAt: postData.publishedAt,
-          slug: postData.slug
-        };
+        setPost({
+          _id: postData._id,
+          title: postData.title || '',
+          content: postData.content || '',
+          summary: postData.summary || '',
+          coverImage: postData.coverImage || '',
+          createdAt: postData.createdAt,
+          updatedAt: postData.updatedAt,
+          slug: postData.slug || '',
+          tags: postData.tags || [],
+          visibility: postData.visibility || 'public'
+        });
         
-        setPost(processedPost);
         setNotFound(false);
       } catch (err) {
         console.error("Error fetching post:", err);
@@ -136,7 +108,7 @@ const PostDetail = () => {
                   {post.title}
                 </h1>
                 <p className="text-xl text-white/90 mt-4">
-                  {new Date(post.publishedAt).toLocaleDateString()}
+                  {new Date(post.createdAt).toLocaleDateString()}
                 </p>
               </div>
             </div>
@@ -158,12 +130,15 @@ const PostDetail = () => {
                 </button>
 
                 {/* Cover Image */}
-                {post.coverImage?.url && (
+                {post.coverImage && (
                   <div className="mb-8 h-64 md:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
                     <img
-                      src={post.coverImage.url}
+                      src={optimizeImageUrl(post.coverImage)}
                       alt={post.title}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/800x400?text=Post+Image';
+                      }}
                     />
                   </div>
                 )}
@@ -175,98 +150,28 @@ const PostDetail = () => {
                   </div>
                 )}
 
+                {/* Tags */}
+                {post.tags && post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {post.tags.map((tag, index) => (
+                      <span 
+                        key={index} 
+                        className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
                 {/* Content */}
                 <div className="prose max-w-none">
                   {post.content && (
-                    <BlocksRenderer 
-                      content={post.content}
-                      blocks={{
-                        paragraph: ({ children }) => (
-                          <p className="text-gray-700 mb-4 leading-relaxed">{children}</p>
-                        ),
-                        heading: ({ children, level }) => {
-                          const Tag = `h${level}`;
-                          const classes = {
-                            1: 'text-4xl font-bold text-primary mb-6',
-                            2: 'text-3xl font-bold text-primary mb-5',
-                            3: 'text-2xl font-bold text-primary mb-4',
-                            4: 'text-xl font-bold text-primary mb-3',
-                            5: 'text-lg font-bold text-primary mb-2',
-                            6: 'text-base font-bold text-primary mb-2'
-                          };
-                          return <Tag className={classes[level]}>{children}</Tag>;
-                        },
-                        list: ({ children, format }) => (
-                          <ul className={`list-${format} mb-4 pl-6 space-y-2`}>
-                            {children}
-                          </ul>
-                        ),
-                        listItem: ({ children }) => (
-                          <li className="text-gray-700">{children}</li>
-                        ),
-                        quote: ({ children }) => (
-                          <blockquote className="border-l-4 border-primary pl-4 italic text-gray-600 my-4">
-                            {children}
-                          </blockquote>
-                        ),
-                        code: ({ children }) => (
-                          <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto my-4">
-                            <code className="text-sm">{children}</code>
-                          </pre>
-                        ),
-                        link: ({ children, url }) => (
-                          <a 
-                            href={url} 
-                            className="text-primary hover:text-primary-dark underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {children}
-                          </a>
-                        ),
-                        image: ({ image }) => (
-                          <div className="my-6">
-                            <img 
-                              src={image.url} 
-                              alt={image.alternativeText || ''}
-                              className="rounded-lg shadow-md"
-                            />
-                            {image.caption && (
-                              <p className="text-sm text-gray-500 mt-2 text-center">
-                                {image.caption}
-                              </p>
-                            )}
-                          </div>
-                        )
-                      }}
-                      modifiers={{
-                        bold: ({ children }) => (
-                          <strong className="font-bold">{children}</strong>
-                        ),
-                        italic: ({ children }) => (
-                          <em className="italic">{children}</em>
-                        ),
-                        underline: ({ children }) => (
-                          <u className="underline">{children}</u>
-                        ),
-                        strikethrough: ({ children }) => (
-                          <s className="line-through">{children}</s>
-                        ),
-                        code: ({ children }) => (
-                          <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono">
-                            {children}
-                          </code>
-                        )
-                      }}
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: post.content }}
+                      className="text-gray-700 leading-relaxed"
                     />
                   )}
-                </div>
-
-                {/* Post Metadata */}
-                <div className="mt-8 pt-6 border-t border-gray-200">
-                  <div className="flex items-center text-gray-500">
-                    <span>Published on {new Date(post.publishedAt).toLocaleDateString()}</span>
-                  </div>
                 </div>
               </div>
             </div>

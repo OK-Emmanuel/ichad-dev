@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import CallToAction from '../components/CallToAction';
 import { optimizeImageUrl } from '../utils/imageOptimizer';
+import PageBanner from '../components/PageBanner';
 
 const Impact = () => {
   const stats = [
@@ -54,19 +55,13 @@ const Impact = () => {
       <Navbar />
       <main>
         {/* Banner Section */}
-        <header className="h-[60vh] relative">
-          <img
-            src="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg"
-            alt="Our Impact"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <div className="text-center text-white">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Our Impact</h1>
-              <p className="text-xl md:text-2xl">Creating Lasting Change in Communities</p>
-            </div>
-          </div>
-        </header>
+        <PageBanner 
+          page="impact"
+          defaultImage="https://res.cloudinary.com/dzzavh0nq/image/upload/v1744414953/Copy_of_ICHAD-drug-conference-2023-2128_mfppjv_kcbw70.jpg"
+          defaultTitle="Our Impact"
+          defaultSubtitle="Creating Lasting Change in Communities"
+          className="h-[60vh]"
+        />
 
         {/* Stats Counter Section - Updated colors */}
         <section className="relative py-20 bg-primary text-white">

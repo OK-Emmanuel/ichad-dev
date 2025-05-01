@@ -4,6 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import EmptyState from './EmptyState';
 import TeamMemberCard from './TeamMemberCard';
 import template from '../assets/team/template.jpg';
+import { teamService } from '../services/api';
 
 // Simplified image helper or can be removed if Strapi URL is absolute
 const getImageUrl = (imageData, fallback) => {
@@ -23,32 +24,13 @@ const TeamSection = () => {
       try {
         setLoading(true);
         setError(false);
-        const strapiUrl = process.env.NODE_ENV === 'production' 
-          ? '/api/team-members?populate=headshot' 
-          : 'http://localhost:1337/api/team-members?populate=headshot';
+        
+        const data = await teamService.getTeamMembers();
 
-        const response = await fetch(strapiUrl);
+        // Limit the number of team members displayed to 6
+        const limitedData = data.slice(0, 6); 
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        // Limit the number of team members displayed, e.g., to 6
-        const limitedData = data.data.slice(0, 6); 
-
-        const fetchedMembers = limitedData.map(member => ({
-          id: member.id,
-          name: member.name || '',
-          role: member.role || '',
-          image: getImageUrl(member.headshot, template),
-          linkedin: member.linkedin || '#',
-          facebook: member.facebook || '#'
-        }));
-
-        setTeamMembers(fetchedMembers);
-
+        setTeamMembers(limitedData);
       } catch (err) {
         console.error("Error fetching team members:", err);
         setError(true);
@@ -104,7 +86,15 @@ const TeamSection = () => {
         {/* Team Members Grid - Use TeamMemberCard */}
         <div className="grid md:grid-cols-3 gap-12 justify-center">
           {teamMembers.map((member, index) => (
-            <TeamMemberCard key={member.id} {...member} index={index} />
+            <TeamMemberCard 
+              key={member._id}
+              name={member.name}
+              role={member.role}
+              image={member.image}
+              bio={member.bio}
+              linkedin={member.linkedin}
+              index={index}
+            />
           ))}
         </div>
 

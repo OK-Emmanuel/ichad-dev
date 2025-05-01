@@ -7,7 +7,7 @@ import BackToTop from '../components/BackToTop';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { optimizeImageUrl } from '../utils/imageOptimizer';
 import template from '../assets/team/template.jpg';
-import { BlocksRenderer } from '@strapi/blocks-react-renderer'; // Import the renderer
+import { programService } from '../services/api';
 
 const Program = () => {
   const { slug } = useParams();
@@ -26,62 +26,21 @@ const Program = () => {
       try {
         setLoading(true);
         setNotFound(false);
-        // Update backend URL for Strapi and add populate
-        const backendUrl = process.env.NODE_ENV === 'production' 
-          ? `/api/programs?filters[slug][$eq]=${slug}&populate=coverImage` 
-          : `http://localhost:1337/api/programs?filters[slug][$eq]=${slug}&populate=coverImage`;
-
-        const response = await fetch(backendUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          credentials: 'include',
+        
+        const programData = await programService.getProgramBySlug(slug);
+        
+        setProgram({
+          _id: programData._id,
+          title: programData.title || '',
+          summary: programData.summary || '',
+          coverImage: programData.coverImage || '',
+          slug: programData.slug || '',
+          startDate: programData.startDate || '',
+          endDate: programData.endDate || '',
+          content: programData.content || '',
+          visibility: programData.visibility || 'draft',
+          hubs: programData.hubs || []
         });
-
-        if (!response.ok) {
-          if (response.status === 404) {
-            setNotFound(true);
-            setProgram(null);
-          } else {
-            // Handle other errors if needed
-            console.error(`HTTP error! status: ${response.status}`);
-            setNotFound(true); // Treat other errors as not found for simplicity
-            setProgram(null);
-          }
-          return; // Exit after handling error
-        }
-
-        const responseData = await response.json();
-
-        // Strapi returns an array even when filtering by unique slug
-        if (responseData.data && responseData.data.length > 0) {
-          const programData = responseData.data[0]; // Get the first (and likely only) program
-
-          // Construct the full image URL
-          const coverImageUrl = programData.coverImage?.formats?.medium?.url || programData.coverImage?.url || null;
-          const fullCoverImageUrl = coverImageUrl && !coverImageUrl.startsWith('http')
-            ? `http://localhost:1337${coverImageUrl}`
-            : coverImageUrl;
-
-          // Set the state with processed data
-          setProgram({
-            id: programData.id,
-            title: programData.title || '',
-            summary: programData.summary || '',
-            coverImage: fullCoverImageUrl,
-            slug: programData.slug || '',
-            startDate: programData.startDate || '',
-            endDate: programData.endDate || '',
-            content: programData.content || '', // Assuming content is still a Blocks/HTML string
-            visibility: programData.visibility || 'draft'
-          });
-        } else {
-          // No program found with that slug
-          setNotFound(true);
-          setProgram(null);
-        }
         
       } catch (error) {
         console.error('Error fetching program:', error);
@@ -184,12 +143,12 @@ const Program = () => {
                   <div className="mb-6 text-sm text-gray-600 flex items-center space-x-4 border-t border-b border-gray-200 py-3">
                     {program.startDate && (
                       <span>
-                        <strong  className="text-secondary">Start Date:</strong> {new Date(program.startDate).toLocaleDateString()}
+                        <strong className="text-secondary">Start Date:</strong> {new Date(program.startDate).toLocaleDateString()}
                       </span>
                     )}
                     {program.endDate && (
                       <span>
-                        <strong  className="text-secondary">End Date:</strong> {new Date(program.endDate).toLocaleDateString()}
+                        <strong className="text-secondary">End Date:</strong> {new Date(program.endDate).toLocaleDateString()}
                       </span>
                     )}
                   </div>
@@ -197,7 +156,7 @@ const Program = () => {
                 
                 <div className="prose max-w-none mt-6"> {/* Adjusted margin */}
                   {program.content && 
-                    <BlocksRenderer content={program.content} />
+                    <div dangerouslySetInnerHTML={{ __html: program.content }} />
                   }
                 </div>
               </div>

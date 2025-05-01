@@ -4,8 +4,10 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import LoadingSpinner from '../components/LoadingSpinner';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { postService } from '../services/api';
+import EmptyState from '../components/EmptyState';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -19,25 +21,27 @@ const Posts = () => {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:1337/api/posts?populate=*');
+      const data = await postService.getPosts();
       
-      console.log('Strapi Posts Response:', JSON.stringify(response.data, null, 2));
+      // Process the posts data
+      const processedPosts = data.map(post => ({
+        _id: post._id,
+        title: post.title || '',
+        summary: post.summary || '',
+        content: post.content || '',
+        slug: post.slug || '',
+        coverImage: post.coverImage || '',
+        visibility: post.visibility || 'draft',
+        tags: post.tags || [],
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt
+      }));
       
-      // Process the data based on the actual response structure
-      const processedPosts = response.data.data.map(post => {
-        console.log('Processing post:', JSON.stringify(post, null, 2));
-        return {
-          id: post.id,
-          title: post.title,
-          summary: post.summary,
-          content: post.content,
-          slug: post.slug,
-          coverImage: post.coverImage,
-          publishedAt: post.publishedAt
-        };
-      });
+      // Only show public posts
+      const publicPosts = processedPosts.filter(post => post.visibility === 'public');
       
-      setPosts(processedPosts);
+      setPosts(publicPosts);
+      setError(null);
     } catch (error) {
       console.error('Error fetching posts:', error);
       setError('Failed to load posts. Please try again later.');
@@ -54,6 +58,7 @@ const Posts = () => {
         <LoadingSpinner />
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 
@@ -65,6 +70,7 @@ const Posts = () => {
         <div className="text-red-500 text-center">{error}</div>
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 
@@ -92,18 +98,25 @@ const Posts = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           {posts.length === 0 ? (
-            <div className="text-center text-gray-500">No posts found.</div>
+            <EmptyState 
+              title="No Posts Available"
+              message="We don't have any blog posts available at the moment. Please check back soon!"
+              icon="ri-article-line"
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map(post => (
-                <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                <div key={post._id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                   {/* Image Container */}
                   <div className="relative h-48 overflow-hidden">
-                    {post.coverImage?.url ? (
+                    {post.coverImage ? (
                       <img 
-                        src={post.coverImage.url} 
+                        src={optimizeImageUrl(post.coverImage)} 
                         alt={post.title}
                         className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/600x400?text=Blog+Post';
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -126,7 +139,7 @@ const Posts = () => {
                       </p>
                     )}
                     <div className="text-sm text-gray-500">
-                      {new Date(post.publishedAt).toLocaleDateString()}
+                      {new Date(post.createdAt).toLocaleDateString()}
                     </div>
                   </div>
                 </div>

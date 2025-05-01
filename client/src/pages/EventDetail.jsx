@@ -6,7 +6,8 @@ import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import { eventService } from '../services/api';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const EventDetail = () => {
   const { eventSlug } = useParams();
@@ -20,54 +21,33 @@ const EventDetail = () => {
       try {
         setLoading(true);
         
-        // Convert URL parameter back to original slug format
-        const originalSlug = eventSlug.split('-').join(' ');
-        
-        // Fetch event with populated related fields
-        const strapiUrl = process.env.NODE_ENV === 'production'
-          ? `/api/events?filters[slug][$eqi]=${originalSlug}&populate=*`
-          : `http://localhost:1337/api/events?filters[slug][$eqi]=${originalSlug}&populate=*`;
-        
-        console.log("Fetching event from:", strapiUrl);
-        
-        const response = await fetch(strapiUrl);
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          console.error("API Error Response:", errorData);
-          setNotFound(true);
-          setEvent(null);
-          return;
-        }
-        
-        const data = await response.json();
-        console.log("Event detail raw response:", data);
-        
-        // Verify the data structure
-        if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
-          setNotFound(true);
-          setEvent(null);
-          return;
-        }
-        
-        // Get the first event from the filtered results
-        const eventData = data.data[0];
+        const eventData = await eventService.getEventBySlug(eventSlug);
         
         // Process the event data
-        const processedEvent = {
-          id: eventData.id,
-          title: eventData.title,
-          content: eventData.content,
-          summary: eventData.summary,
-          description: eventData.description,
-          startDate: eventData.startDate,
-          endDate: eventData.endDate,
-          location: eventData.location,
-          coverImage: eventData.coverImage,
-          slug: eventData.slug
-        };
+        setEvent({
+          _id: eventData._id,
+          title: eventData.title || '',
+          content: eventData.content || '',
+          summary: eventData.summary || '',
+          coverImage: eventData.coverImage || '',
+          slug: eventData.slug || '',
+          startDate: eventData.startDate || '',
+          endDate: eventData.endDate || '',
+          location: eventData.location || '',
+          eventType: eventData.eventType || 'physical',
+          status: eventData.status || 'upcoming',
+          registrationLink: eventData.registrationLink || '',
+          hubs: eventData.hubs || [],
+          program: eventData.program || null,
+          speakers: eventData.speakers || [],
+          sponsors: eventData.sponsors || [],
+          capacity: eventData.capacity || 0,
+          isFeatured: eventData.isFeatured || false,
+          visibility: eventData.visibility || 'public',
+          createdAt: eventData.createdAt,
+          updatedAt: eventData.updatedAt
+        });
         
-        setEvent(processedEvent);
         setNotFound(false);
       } catch (err) {
         console.error("Error fetching event:", err);
@@ -173,12 +153,15 @@ const EventDetail = () => {
                 </button>
 
                 {/* Cover Image */}
-                {event.coverImage?.url && (
+                {event.coverImage && (
                   <div className="mb-8 h-64 md:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
                     <img
-                      src={event.coverImage.url}
+                      src={optimizeImageUrl(event.coverImage)}
                       alt={event.title}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
+                      }}
                     />
                   </div>
                 )}
@@ -187,11 +170,6 @@ const EventDetail = () => {
                 {event.summary && (
                   <div className="mb-8 p-6 bg-gray-50 rounded-lg">
                     <p className="text-lg text-gray-700 italic">{event.summary}</p>
-                  </div>
-                )}
-                {!event.summary && event.description && (
-                  <div className="mb-8 p-6 bg-gray-50 rounded-lg">
-                    <p className="text-lg text-gray-700 italic">{event.description}</p>
                   </div>
                 )}
 
@@ -219,95 +197,122 @@ const EventDetail = () => {
                         </div>
                       </div>
                     )}
+                    
+                    {event.eventType && (
+                      <div className="flex items-start">
+                        <i className="ri-global-line text-primary text-xl mt-1 mr-4"></i>
+                        <div>
+                          <h3 className="font-semibold text-gray-800">Event Type</h3>
+                          <p className="text-gray-600 capitalize">{event.eventType}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {event.registrationLink && (
+                      <div className="flex items-start">
+                        <i className="ri-user-add-line text-primary text-xl mt-1 mr-4"></i>
+                        <div>
+                          <h3 className="font-semibold text-gray-800">Registration</h3>
+                          <a 
+                            href={event.registrationLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline"
+                          >
+                            Register for this event
+                          </a>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="prose max-w-none">
                   {event.content && (
-                    <BlocksRenderer 
-                      content={event.content}
-                      blocks={{
-                        paragraph: ({ children }) => (
-                          <p className="text-gray-700 mb-4 leading-relaxed">{children}</p>
-                        ),
-                        heading: ({ children, level }) => {
-                          const Tag = `h${level}`;
-                          const classes = {
-                            1: 'text-4xl font-bold text-primary mb-6',
-                            2: 'text-3xl font-bold text-primary mb-5',
-                            3: 'text-2xl font-bold text-primary mb-4',
-                            4: 'text-xl font-bold text-primary mb-3',
-                            5: 'text-lg font-bold text-primary mb-2',
-                            6: 'text-base font-bold text-primary mb-2'
-                          };
-                          return <Tag className={classes[level]}>{children}</Tag>;
-                        },
-                        list: ({ children, format }) => (
-                          <ul className={`list-${format} mb-4 pl-6 space-y-2`}>
-                            {children}
-                          </ul>
-                        ),
-                        listItem: ({ children }) => (
-                          <li className="text-gray-700">{children}</li>
-                        ),
-                        quote: ({ children }) => (
-                          <blockquote className="border-l-4 border-primary pl-4 italic text-gray-600 my-4">
-                            {children}
-                          </blockquote>
-                        ),
-                        code: ({ children }) => (
-                          <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto my-4">
-                            <code className="text-sm">{children}</code>
-                          </pre>
-                        ),
-                        link: ({ children, url }) => (
-                          <a 
-                            href={url} 
-                            className="text-primary hover:text-primary-dark underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {children}
-                          </a>
-                        ),
-                        image: ({ image }) => (
-                          <div className="my-6">
-                            <img 
-                              src={image.url} 
-                              alt={image.alternativeText || ''}
-                              className="rounded-lg shadow-md"
-                            />
-                            {image.caption && (
-                              <p className="text-sm text-gray-500 mt-2 text-center">
-                                {image.caption}
-                              </p>
-                            )}
-                          </div>
-                        )
-                      }}
-                      modifiers={{
-                        bold: ({ children }) => (
-                          <strong className="font-bold">{children}</strong>
-                        ),
-                        italic: ({ children }) => (
-                          <em className="italic">{children}</em>
-                        ),
-                        underline: ({ children }) => (
-                          <u className="underline">{children}</u>
-                        ),
-                        strikethrough: ({ children }) => (
-                          <s className="line-through">{children}</s>
-                        ),
-                        code: ({ children }) => (
-                          <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono">
-                            {children}
-                          </code>
-                        )
-                      }}
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: event.content }}
+                      className="text-gray-700 leading-relaxed"
                     />
                   )}
                 </div>
+                
+                {/* Speakers Section */}
+                {event.speakers && event.speakers.length > 0 && (
+                  <div className="mt-12">
+                    <h2 className="text-2xl font-bold text-primary mb-6">Speakers</h2>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {event.speakers.map((speaker, index) => (
+                        <div key={index} className="flex items-start bg-gray-50 p-4 rounded-lg">
+                          {speaker.photo && (
+                            <div className="w-16 h-16 mr-4 flex-shrink-0">
+                              <img 
+                                src={speaker.photo} 
+                                alt={speaker.name} 
+                                className="w-full h-full object-cover rounded-full"
+                                onError={(e) => {
+                                  e.target.src = 'https://via.placeholder.com/150?text=Speaker';
+                                }}
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <h3 className="font-bold text-lg">{speaker.name}</h3>
+                            {speaker.bio && <p className="text-gray-600 text-sm">{speaker.bio}</p>}
+                            {speaker.link && (
+                              <a 
+                                href={speaker.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline text-sm mt-1 inline-block"
+                              >
+                                More Info
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Sponsors Section */}
+                {event.sponsors && event.sponsors.length > 0 && (
+                  <div className="mt-12">
+                    <h2 className="text-2xl font-bold text-primary mb-6">Sponsors</h2>
+                    <div className="flex flex-wrap gap-6 justify-center">
+                      {event.sponsors.map((sponsor, index) => (
+                        <div key={index} className="text-center">
+                          {sponsor.logo ? (
+                            <a 
+                              href={sponsor.link || '#'} 
+                              target={sponsor.link ? "_blank" : "_self"} 
+                              rel="noopener noreferrer"
+                            >
+                              <img 
+                                src={sponsor.logo} 
+                                alt={sponsor.name} 
+                                className="h-12 max-w-xs object-contain mx-auto"
+                                onError={(e) => {
+                                  e.target.src = 'https://via.placeholder.com/200x80?text=Sponsor';
+                                }}
+                              />
+                            </a>
+                          ) : (
+                            <a 
+                              href={sponsor.link || '#'} 
+                              target={sponsor.link ? "_blank" : "_self"} 
+                              rel="noopener noreferrer"
+                              className="text-primary font-medium"
+                            >
+                              {sponsor.name}
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

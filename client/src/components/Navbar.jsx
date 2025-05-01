@@ -59,7 +59,7 @@ const Navbar = () => {
     <nav className={`bg-primary fixed w-full z-30 transition-all duration-300 ${
       isScrolled ? 'top-0 shadow-lg' : 'md:top-[60px] top-0'
     }`}>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 mt-0">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">

@@ -9,6 +9,7 @@ import EmptyState from '../components/EmptyState';
 import TeamMemberCard from '../components/TeamMemberCard';
 import template from '../assets/team/template.jpg';
 import teamBanner from '../assets/team-banner.jpg';
+import { teamService } from '../services/api';
 
 // Helper function to construct image URL (similar to TeamSection)
 const getImageUrl = (imageData, fallback) => {
@@ -29,49 +30,14 @@ const Team = () => {
       setLoading(true);
       setError(false);
       try {
-        const execUrl = process.env.NODE_ENV === 'production' 
-          ? '/api/team-members?populate=headshot' 
-          : 'http://localhost:1337/api/team-members?populate=headshot';
-        
-        const advisoryUrl = process.env.NODE_ENV === 'production' 
-          ? '/api/advisory-boards?populate=image' 
-          : 'http://localhost:1337/api/advisory-boards?populate=image';
-
-        const [execResponse, advisoryResponse] = await Promise.all([
-          fetch(execUrl),
-          fetch(advisoryUrl)
+        // Using Promise.all to fetch both team types concurrently
+        const [teamMembers, advisoryMembers] = await Promise.all([
+          teamService.getTeamMembers(),
+          teamService.getAdvisoryMembers()
         ]);
 
-        if (!execResponse.ok || !advisoryResponse.ok) {
-          console.error("Error fetching one or both team lists:", execResponse.status, advisoryResponse.status);
-          throw new Error('Failed to fetch team data');
-        }
-
-        const execData = await execResponse.json();
-        const advisoryData = await advisoryResponse.json();
-
-        // Process Executive Team
-        const fetchedExec = execData.data.map(member => ({
-          id: member.id,
-          name: member.name || '',
-          role: member.role || '',
-          image: getImageUrl(member.headshot, template), // Use headshot field
-          linkedin: member.linkedin || '#',
-          facebook: member.facebook || '#'
-        }));
-        setExecutiveTeam(fetchedExec);
-
-        // Process Advisory Board
-        const fetchedAdvisory = advisoryData.data.map(member => ({
-          id: member.id,
-          name: member.name || '',
-          role: member.role || '',
-          image: getImageUrl(member.image, template), // Use image field
-          linkedin: member.linkedin || '#',
-          facebook: member.facebook || '#'
-        }));
-        setAdvisoryBoard(fetchedAdvisory);
-
+        setExecutiveTeam(teamMembers);
+        setAdvisoryBoard(advisoryMembers);
       } catch (err) {
         console.error("Error fetching team data:", err);
         setError(true);
@@ -83,7 +49,7 @@ const Team = () => {
     fetchAllTeams();
   }, []);
 
-  // Presentational component for a section (minor refactor)
+  // Presentational component for a section
   const TeamSectionDisplay = ({ title, members }) => (
     <div className="mb-20">
       <div className="w-full mb-12 text-center">
@@ -94,7 +60,15 @@ const Team = () => {
       {members && members.length > 0 ? (
         <div className="grid md:grid-cols-3 gap-12 justify-center">
           {members.map((member, index) => (
-            <TeamMemberCard key={member.id} {...member} index={index} />
+            <TeamMemberCard 
+              key={member._id}
+              name={member.name}
+              role={member.role}
+              // bio={member.bio}
+              image={member.image} 
+              linkedin={member.linkedin}
+              index={index}
+            />
           ))}
         </div>
       ) : (

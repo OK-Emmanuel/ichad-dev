@@ -5,7 +5,9 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import LoadingSpinner from '../components/LoadingSpinner';
-import axios from 'axios';
+import { eventService } from '../services/api';
+import EmptyState from '../components/EmptyState';
+import { optimizeImageUrl } from '../utils/imageOptimizer';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -19,27 +21,36 @@ const Events = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:1337/api/events?populate=*');
+      const data = await eventService.getEvents();
       
-      console.log('Strapi Events Response:', JSON.stringify(response.data, null, 2));
+      // Process the events data
+      const processedEvents = data.map(event => ({
+        _id: event._id,
+        title: event.title || '',
+        summary: event.summary || '',
+        content: event.content || '',
+        slug: event.slug || '',
+        coverImage: event.coverImage || '',
+        visibility: event.visibility || 'draft',
+        startDate: event.startDate || '',
+        endDate: event.endDate || '',
+        location: event.location || '',
+        eventType: event.eventType || 'physical',
+        status: event.status || 'upcoming',
+        registrationLink: event.registrationLink || '',
+        hubs: event.hubs || [],
+        program: event.program || null,
+        speakers: event.speakers || [],
+        sponsors: event.sponsors || [],
+        capacity: event.capacity || 0,
+        isFeatured: event.isFeatured || false
+      }));
       
-      // Process the data based on the actual response structure
-      const processedEvents = response.data.data.map(event => {
-        console.log('Processing event:', JSON.stringify(event, null, 2));
-        return {
-          id: event.id,
-          title: event.title,
-          summary: event.summary,
-          description: event.description,
-          startDate: event.startDate,
-          endDate: event.endDate,
-          location: event.location,
-          coverImage: event.coverImage,
-          slug: event.slug
-        };
-      });
+      // Only show public events
+      const publicEvents = processedEvents.filter(event => event.visibility === 'public');
       
-      setEvents(processedEvents);
+      setEvents(publicEvents);
+      setError(null);
     } catch (error) {
       console.error('Error fetching events:', error);
       setError('Failed to load events. Please try again later.');
@@ -56,6 +67,7 @@ const Events = () => {
         <LoadingSpinner />
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 
@@ -67,6 +79,7 @@ const Events = () => {
         <div className="text-red-500 text-center">{error}</div>
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 
@@ -94,18 +107,25 @@ const Events = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           {events.length === 0 ? (
-            <div className="text-center text-gray-500">No events found.</div>
+            <EmptyState 
+              title="No Events Available"
+              message="We don't have any upcoming events at the moment. Please check back soon!"
+              icon="ri-calendar-event-line"
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {events.map(event => (
-                <div key={event.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                <div key={event._id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                   {/* Image Container */}
                   <div className="relative h-48 overflow-hidden">
-                    {event.coverImage?.url ? (
+                    {event.coverImage ? (
                       <img 
-                        src={event.coverImage.url} 
+                        src={optimizeImageUrl(event.coverImage)} 
                         alt={event.title}
                         className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/600x400?text=Event';
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">

@@ -1,7 +1,9 @@
 // import { useConfetti } from '../contexts/ConfettiContext';
+import { useSiteConfig } from '../contexts/SiteConfigContext';
 
 const TopBar = () => {
   // const { triggerConfetti } = useConfetti();
+  const { config } = useSiteConfig();
 
   const handleDonateClick = () => {
     // triggerConfetti();
@@ -14,21 +16,21 @@ const TopBar = () => {
 
   return (
     <div className="hidden md:block"> {/* Hide on mobile, show on medium screens and up */}
-      <div className="bg-primary text-white text-sm py-3">
+      <div className="bg-primary text-white text-sm py-5 border-b-2 border-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-6">
-              <a href="tel:+2347033696676" className="flex items-center hover:text-gray-300">
+              <a href={`tel:${config.contactPhone}`} className="flex items-center hover:text-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                +234 703 369 6676
+                {config.contactPhone}
               </a>
-              <a href="mailto:info@ichadproject.org" className="flex items-center hover:text-gray-300">
+              <a href={`mailto:${config.contactEmail}`} className="flex items-center hover:text-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                info@ichadproject.org
+                {config.contactEmail}
               </a>
             </div>
             <div className="flex space-x-2">
@@ -48,7 +50,6 @@ const TopBar = () => {
             </div>
           </div>
         </div>
-      <hr className="mt-1"/>
       </div>
     </div>
   );

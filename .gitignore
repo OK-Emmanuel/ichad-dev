@@ -30,3 +30,6 @@ discuss.md
 *.njsproj
 *.sln
 *.sw?
+
+client/dist
+client/dist.zip
