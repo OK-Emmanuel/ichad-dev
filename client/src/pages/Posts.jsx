@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { postService } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { optimizeImageUrl } from '../utils/imageOptimizer';
+import tempImage from '../assets/team/template.jpg';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -108,14 +109,14 @@ const Posts = () => {
               {posts.map(post => (
                 <div key={post._id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                   {/* Image Container */}
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative aspect-[3/2] overflow-hidden">
                     {post.coverImage ? (
                       <img 
                         src={optimizeImageUrl(post.coverImage)} 
                         alt={post.title}
                         className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/600x400?text=Blog+Post';
+                          e.target.src = tempImage;
                         }}
                       />
                     ) : (

@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 import { postService } from '../services/api';
 import { optimizeImageUrl } from '../utils/imageOptimizer';
+import tempImage from '../assets/team/template.jpg';
 
 const PostDetail = () => {
   const { postSlug } = useParams();
@@ -137,7 +138,7 @@ const PostDetail = () => {
                       alt={post.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/800x400?text=Post+Image';
+                        e.target.src = tempImage;
                       }}
                     />
                   </div>
