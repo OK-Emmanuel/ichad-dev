@@ -106,9 +106,9 @@ const HubsComponent = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12 text-primary">Our Hubs</h2>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {hubs.map((hub, index) => (
-            <div key={hub._id || index} className="flex flex-col">
+            <div key={hub._id || index} className="flex flex-col shadow-md rounded-lg overflow-hidden">
               <Link to={`/hubs/${hub.slug}`} className="flex-grow">
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
@@ -117,11 +117,11 @@ const HubsComponent = () => {
                   viewport={{ once: true }}
                   className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer h-full"
                 >
-                  <div className="h-48 overflow-hidden relative">
+                  <div className="overflow-hidden relative flex h-full">
                     <img 
                       src={hub.image} 
                       alt={hub.name}
-                      className="w-full h-full object-cover transform hover:scale-105 transition-all duration-500"
+                      className="w-full h-full object-cover hover:scale-105 transition-all duration-500"
                       onError={(e) => {
                         e.target.src = fallbackImage;
                       }}
