@@ -7,6 +7,7 @@ import TopBar from './TopBar';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import BackToTop from './BackToTop';
+import HubLeaders from './HubLeaders';
 import { hubService } from '../services/api';
 
 // Default fallback image
@@ -142,7 +143,7 @@ const HubDetail = () => {
             <div className="max-w-4xl mx-auto -mt-16 md:-mt-20 relative z-10">
               <div className="bg-white rounded-lg shadow-2xl p-6 md:p-8">
                 {hub.logoUrl && (
-                  <div className="mb-8 h-64 md:h-80 lg:h-96 overflow-hidden rounded-lg shadow-md">
+                  <div className="mb-8 overflow-hidden rounded-lg shadow-md flex">
                     <img
                       src={hub.logoUrl}
                       alt={hub.name}
@@ -190,7 +191,11 @@ const HubDetail = () => {
                   {hub.description && 
                     <div className="text-gray-700 whitespace-pre-line">{hub.description}</div>
                   }
+                
                 </div>
+
+                {/* Hub Leaders Section */}
+                <HubLeaders hubId={hub._id} />
               </div>
             </div>
           )}

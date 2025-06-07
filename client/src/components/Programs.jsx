@@ -94,14 +94,14 @@ const Programs = () => {
             <Link 
               key={program._id} 
               to={`/programs/${program.slug}`}
-              className="block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+              className="flex flex-col bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image Container */}
-              <div className="relative h-48 overflow-hidden">
+              <div className="flex-1 relative overflow-hidden">
                 <img
                   src={optimizeImageUrl(program.coverImage || templateImage)} 
                   alt={program.title}
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover transition-transform duration-500"
                   onError={(e) => { e.target.src = templateImage; }}
                 />
               </div>

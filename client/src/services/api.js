@@ -47,7 +47,7 @@ export const hubService = {
   
   getHubByName: async (hubName) => {
     try {
-      const response = await api.get(`/hubs?name=${encodeURIComponent(hubName)}`);
+      const response = await api.get(`/hubs/name/${encodeURIComponent(hubName)}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching hub with name ${hubName}:`, error);
@@ -153,6 +153,50 @@ export const configService = {
       console.error(`Error fetching banner for ${page}:`, error);
       // Return null instead of throwing the error to gracefully fall back to defaults
       return null;
+    }
+  }
+};
+
+export const aboutService = {
+  getAboutContent: async () => {
+    try {
+      const response = await api.get('/about-content');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching about content:', error);
+      throw error;
+    }
+  },
+  
+  getAboutContentBySection: async (section) => {
+    try {
+      const response = await api.get(`/about-content/${section}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching about content for section ${section}:`, error);
+      throw error;
+    }
+  }
+};
+
+export const hubLeaderService = {
+  getHubLeaders: async () => {
+    try {
+      const response = await api.get('/hub-leaders');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching hub leaders:', error);
+      throw error;
+    }
+  },
+  
+  getHubLeadersByHub: async (hubId) => {
+    try {
+      const response = await api.get(`/hub-leaders/hub/${hubId}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching hub leaders for hub ${hubId}:`, error);
+      throw error;
     }
   }
 };

@@ -7,4 +7,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ['react-phone-number-input'],
   },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3900', // forward requests to the backend
+    },
+  },
 })

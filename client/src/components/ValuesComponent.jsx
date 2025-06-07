@@ -41,7 +41,7 @@ const ValuesComponent = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group"
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl outline outline-1 outline-gray-200 transition-all duration-300 group"
             >
               <div className="text-secondary text-4xl mb-4 group-hover: transition-transform duration-300">
                 <i className={value.icon}></i>
