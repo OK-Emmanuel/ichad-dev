@@ -1,7 +1,12 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 const SDGComponent = () => {
-  const sdgs = [
+  const [sdgData, setSdgData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Default SDG data as fallback
+  const defaultSdgs = [
     {
       number: 3,
       title: "Good Health and Well-being",
@@ -25,12 +30,35 @@ const SDGComponent = () => {
     }
   ];
 
+  useEffect(() => {
+    fetchSDGContent();
+  }, []);
+
+  const fetchSDGContent = async () => {
+    try {
+      const response = await fetch('/api/about-content/sdg_section');
+      if (response.ok) {
+        const data = await response.json();
+        setSdgData(data);
+      }
+    } catch (error) {
+      console.error('Error fetching SDG content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Use dynamic data if available, otherwise use defaults
+  const sdgs = sdgData?.data || defaultSdgs;
+  const title = sdgData?.title || "Our Activities on SDG";
+  const subtitle = sdgData?.content || "Supporting the United Nations Sustainable Development Goals";
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4 text-primary">Our Activities on SDG</h2>
+        <h2 className="text-3xl font-bold text-center mb-4 text-primary">{title}</h2>
         <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          Supporting the United Nations Sustainable Development Goals
+          {subtitle}
         </p>
         
         <div className="grid md:grid-cols-3 gap-8">
